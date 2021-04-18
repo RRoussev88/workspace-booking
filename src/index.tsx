@@ -1,29 +1,33 @@
+import App from 'App';
+import logo from 'assets/logo.svg';
+import Footer from 'components/Footer';
+import NavBar from 'components/NavBar';
+import 'main.css';
+import Login from 'pages/Login';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import 'main.css';
-import App from 'App';
-import Login from 'pages/Login';
 import reportWebVitals from 'reportWebVitals';
-import logo from 'assets/logo.svg';
-import NavBar from 'components/NavBar';
-import Footer from 'components/Footer';
+import { store } from 'store';
 import { navigationItems } from 'utils';
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <div className="min-h-screen flex flex-col">
-        <NavBar logo={logo} navItems={navigationItems} />
-        <div className="max-w-7xl p-4 sm:p-6 lg:p-8">
-          <Routes>
-            <Route path="/" element={<App />} />
-            <Route path="/login" element={<Login />} />
-          </Routes>
+    <Provider store={store}>
+      <BrowserRouter>
+        <div className="min-h-screen flex flex-col">
+          <NavBar logo={logo} navItems={navigationItems} />
+          <div className="max-w-7xl p-4 sm:p-6 lg:p-8">
+            <Routes>
+              <Route path="/" element={<App />} />
+              <Route path="/login" element={<Login />} />
+            </Routes>
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
-    </BrowserRouter>
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root'),
 );
