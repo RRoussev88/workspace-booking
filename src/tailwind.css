@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .nav-item {
+    @apply text-gray-300 px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white;
+  }
+
+  .nav-item__active {
+    @apply text-white;
+  }
+
+  .burger__nav-item {
+    @apply block text-base;
+  }
+
+  .burger__nav-item__active {
+    @apply text-base;
+  }
+}
