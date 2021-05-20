@@ -4,11 +4,11 @@ import Footer from 'components/Footer';
 import NavBar from 'components/NavBar';
 import 'main.css';
 import Login from 'pages/Login';
+import Offices from 'pages/Offices';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import reportWebVitals from 'reportWebVitals';
 import { store } from 'store';
 import { navigationItems } from 'utils';
 
@@ -22,6 +22,7 @@ ReactDOM.render(
             <Routes>
               <Route path="/" element={<App />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/offices" element={<Offices />} />
             </Routes>
           </div>
           <Footer />
@@ -31,8 +32,3 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root'),
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
