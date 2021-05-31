@@ -1,28 +1,28 @@
-import { FC, useState } from 'react';
 import { Transition } from '@headlessui/react';
-import { NavItem } from 'models/types';
-import { NavLink } from 'react-router-dom';
 import SvgIcon from 'components/SvgIcon';
+import { NavItem } from 'models/types';
+import { FC, useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { navigationItems } from 'utils';
 
-type NavBarProps = {
-  logo: string;
-  navItems: Array<NavItem>;
-};
+type NavBarProps = { logo: string };
 
-const NavBar: FC<NavBarProps> = ({ logo, navItems }) => {
+const NavBar: FC<NavBarProps> = ({ logo }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
     <nav className="bg-gray-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <img className="h-8 w-8" src={logo} alt="Workflow" />
+              <NavLink key="/" to="/" end>
+                <img className="h-8 w-8" src={logo} alt="Workflow" />
+              </NavLink>
             </div>
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
-                {navItems.map((item) => (
+                {navigationItems.map((item: NavItem) => (
                   <NavLink key={item.url} to={item.url} end className="nav-item" activeClassName="nav-item__active">
                     {item.name}
                   </NavLink>
@@ -67,7 +67,7 @@ const NavBar: FC<NavBarProps> = ({ logo, navItems }) => {
         {(ref) => (
           <div className="md:hidden" id="mobile-menu">
             <div ref={ref} className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              {navItems.map((item) => (
+              {navigationItems.map((item: NavItem) => (
                 <NavLink
                   key={item.url}
                   to={item.url}

@@ -2,6 +2,8 @@ export type NavItem = { name: string; url: string };
 
 export type Office = {
   id: string;
+  companyId: string;
+  type: OfficeType;
   name: string;
   address: string;
   contact: Employee;
@@ -10,8 +12,14 @@ export type Office = {
   capacity: number;
   occupied: number;
   meetingRooms: number;
-  relaxZone: boolean;
-  printer: boolean;
+  relaxZones: number;
+  printers: number;
 };
 
 export type Employee = { id: string; name: string; email: string; avatar: string };
+
+export enum OfficeType {
+  SIMPLE = 'simple',
+  NAMED = 'named',
+  BLUEPRINT = 'blueprint',
+}

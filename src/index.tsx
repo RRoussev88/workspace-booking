@@ -10,15 +10,14 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { store } from 'store';
-import { navigationItems } from 'utils';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
         <div className="min-h-screen flex flex-col">
-          <NavBar logo={logo} navItems={navigationItems} />
-          <div className="max-w-7xl p-4 sm:p-6 lg:p-8">
+          <NavBar logo={logo} />
+          <div className="max-w-7xl w-8/12 mx-auto p-4 sm:p-6 lg:p-8">
             <Routes>
               <Route path="/" element={<App />} />
               <Route path="/login" element={<Login />} />

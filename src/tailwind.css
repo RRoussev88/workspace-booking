@@ -4,11 +4,11 @@
 
 @layer components {
   .nav-item {
-    @apply text-gray-300 px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white;
+    @apply text-gray-300 px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-500 hover:text-white;
   }
 
   .nav-item__active {
-    @apply text-white;
+    @apply text-white bg-gray-600;
   }
 
   .burger__nav-item {
@@ -17,5 +17,17 @@
 
   .burger__nav-item__active {
     @apply text-base;
+  }
+
+  .form__button {
+    @apply hover:bg-blue-500 bg-blue-400 text-white block my-1 px-3 h-8 rounded-2xl shadow focus:outline-none focus:ring;
+  }
+
+  .form__button__success {
+    @apply hover:bg-green-500 bg-green-400;
+  }
+
+  .form__button__cancel {
+    @apply hover:bg-gray-500 bg-gray-400;
   }
 }
