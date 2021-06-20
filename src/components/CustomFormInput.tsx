@@ -5,7 +5,7 @@ interface CustomFormInputProps {
   placeholder: string;
   name: string;
   label?: string;
-  type?: 'text' | 'number';
+  type?: 'text' | 'number' | 'password';
   id?: string;
   onChange: ChangeEventHandler;
 }

@@ -1,8 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react';
 import CustomFormInput from 'components/CustomFormInput';
 import { Office, OfficeType } from 'models/types';
-import { FC, Fragment, useState, ChangeEvent, ChangeEventHandler } from 'react';
-
+import { ChangeEvent, ChangeEventHandler, FC, Fragment, useState } from 'react';
 interface CreateOfficeDialogProps {
   isOpen: boolean;
   type: OfficeType | null;

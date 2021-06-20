@@ -1,5 +1,6 @@
-import { FC, useState, MouseEvent, MouseEventHandler, ChangeEvent, ChangeEventHandler } from 'react';
 import CustomFormInput from 'components/CustomFormInput';
+import { ChangeEvent, ChangeEventHandler, FC, MouseEvent, MouseEventHandler, useState } from 'react';
+import { LocalStorageKey } from 'models/constants';
 
 type LoginProps = {};
 
@@ -17,8 +18,20 @@ const Login: FC<LoginProps> = () => {
 
   const handleSubmit: MouseEventHandler = (event: MouseEvent<HTMLInputElement>) => {
     event.preventDefault();
-    setUsername('');
-    setPassword('');
+    fetch('http://localhost:8000/auth/signin', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password }),
+    })
+      .then((raw) => raw.json())
+      .then((data) => {
+        localStorage.setItem(LocalStorageKey.AUTH, JSON.stringify(data));
+        setUsername('');
+        setPassword('');
+      });
   };
 
   return (
@@ -36,6 +49,7 @@ const Login: FC<LoginProps> = () => {
           <CustomFormInput
             name="password"
             label="Password"
+            type="password"
             placeholder="Enter Password"
             value={password}
             onChange={handlePasswordChange}
