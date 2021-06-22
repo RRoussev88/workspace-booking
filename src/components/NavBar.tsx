@@ -1,7 +1,8 @@
 import { Transition } from '@headlessui/react';
+import { AuthContext } from 'authContext';
 import SvgIcon from 'components/SvgIcon';
 import { NavItem } from 'models/types';
-import { FC, useState } from 'react';
+import { FC, useContext, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { navigationItems } from 'utils';
 
@@ -9,6 +10,8 @@ type NavBarProps = { logo: string };
 
 const NavBar: FC<NavBarProps> = ({ logo }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const auth = useContext(AuthContext);
+  const isAuthorized = auth.isLoggedIn();
 
   return (
     <nav className="bg-gray-800">
@@ -22,17 +25,24 @@ const NavBar: FC<NavBarProps> = ({ logo }) => {
             </div>
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
-                {navigationItems.map((item: NavItem) => (
-                  <NavLink key={item.url} to={item.url} end className="nav-item" activeClassName="nav-item__active">
-                    {item.name}
-                  </NavLink>
-                ))}
+                {navigationItems
+                  .filter((item) => item.isAuthRequired === isAuthorized)
+                  .map((item: NavItem) => (
+                    <NavLink key={item.url} to={item.url} end className="nav-item" activeClassName="nav-item__active">
+                      {item.name}
+                    </NavLink>
+                  ))}
               </div>
             </div>
           </div>
+          {isAuthorized && (
+            <button onClick={auth.logout} className="hidden md:block nav-item bg-red-400 hover:bg-red-300">
+              Logout
+            </button>
+          )}
           <div className="-mr-2 flex md:hidden">
             <button
-              onClick={() => setIsOpen(!isOpen)}
+              onClick={() => setIsOpen((prevState) => !prevState)}
               type="button"
               className="bg-gray-900 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
               aria-controls="mobile-menu"
@@ -67,17 +77,24 @@ const NavBar: FC<NavBarProps> = ({ logo }) => {
         {(ref) => (
           <div className="md:hidden" id="mobile-menu">
             <div ref={ref} className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              {navigationItems.map((item: NavItem) => (
-                <NavLink
-                  key={item.url}
-                  to={item.url}
-                  end
-                  className="nav-item burger__nav-item"
-                  activeClassName="nav-item__active burger__nav-item__active"
-                >
-                  {item.name}
-                </NavLink>
-              ))}
+              {navigationItems
+                .filter((item) => item.isAuthRequired === isAuthorized)
+                .map((item: NavItem) => (
+                  <NavLink
+                    key={item.url}
+                    to={item.url}
+                    end
+                    className="nav-item burger__nav-item"
+                    activeClassName="nav-item__active burger__nav-item__active"
+                  >
+                    {item.name}
+                  </NavLink>
+                ))}
+              {isAuthorized && (
+                <button onClick={auth.logout} className="nav-item w-full bg-red-400 hover:bg-red-300">
+                  Logout
+                </button>
+              )}
             </div>
           </div>
         )}

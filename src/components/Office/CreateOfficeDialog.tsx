@@ -44,7 +44,7 @@ const CreateOfficeDialog: FC<CreateOfficeDialogProps> = ({ isOpen, type, onClose
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+            <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-2xl rounded-2xl border-2 border-gray-200">
               <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
                 {`Create ${type} office`}
               </Dialog.Title>

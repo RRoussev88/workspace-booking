@@ -1,4 +1,4 @@
-export type NavItem = { name: string; url: string };
+export type NavItem = { name: string; url: string; isAuthRequired: boolean };
 
 export type Office = {
   id: string;
@@ -23,3 +23,18 @@ export enum OfficeType {
   NAMED = 'named',
   BLUEPRINT = 'blueprint',
 }
+
+export type AuthToken = {
+  AccessToken: string;
+  ExpiresIn: number;
+  IdToken: string;
+  RefreshToken: string;
+  TokenType: 'Bearer';
+};
+
+export type AuthContextType = {
+  token: AuthToken | null;
+  isLoggedIn: () => boolean;
+  onLogin: (token: AuthToken | null) => void;
+  logout: () => void;
+};

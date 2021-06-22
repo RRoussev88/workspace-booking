@@ -1,7 +1,6 @@
 import { NavItem } from 'models/types';
 
 export const navigationItems: Array<NavItem> = [
-  // { name: 'Dashboard', url: '/' },
-  { name: 'Sign In', url: '/login' },
-  { name: 'Offices', url: '/offices' },
+  { name: 'Sign In', url: '/login', isAuthRequired: false },
+  { name: 'Offices', url: '/offices', isAuthRequired: true },
 ];
