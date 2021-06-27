@@ -1,19 +1,19 @@
 import { Dialog, Transition } from '@headlessui/react';
 import CustomFormInput from 'components/CustomFormInput';
-import { Office, OfficeType } from 'models/types';
+import { Organisation, OrgType } from 'models/types';
 import { ChangeEvent, ChangeEventHandler, FC, Fragment, useState } from 'react';
 
-interface CreateOfficeDialogProps {
+interface CreateOrganizationDialogProps {
   isOpen: boolean;
-  type: OfficeType | null;
+  type: OrgType | null;
   onCloseModal: () => void;
 }
 
-const CreateOfficeDialog: FC<CreateOfficeDialogProps> = ({ isOpen, type, onCloseModal }) => {
-  const [officeState, setOfficeState] = useState<Partial<Office>>({});
+const CreateOrganizationDialog: FC<CreateOrganizationDialogProps> = ({ isOpen, type, onCloseModal }) => {
+  const [orgState, setOrgState] = useState<Partial<Organisation>>({});
 
   const handleFormChange: ChangeEventHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setOfficeState((prevState) => ({ ...prevState, [event.target.name]: event.target.value }));
+    setOrgState((prevState) => ({ ...prevState, [event.target.name]: event.target.value }));
   };
 
   return (
@@ -47,32 +47,25 @@ const CreateOfficeDialog: FC<CreateOfficeDialogProps> = ({ isOpen, type, onClose
           >
             <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-2xl rounded-2xl border-2 border-gray-200">
               <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
-                {`Create ${type} office`}
+                {`Create ${type} organization`}
               </Dialog.Title>
               <form className="max-w-sm mx-auto my-4 sm:my-6 lg:my-8 bg-gray-100 p-4 sm:p-6 lg:p-8 rounded shadow">
                 <fieldset className="text-gray-600">
                   <legend className="mx-auto ext-sm text-gray-500">
-                    {type === OfficeType.SIMPLE && 'Create an office with specified bumber of work places.'}
+                    {type === OrgType.OPEN && 'Create coworking space.'}
                   </legend>
                   <CustomFormInput
                     name="name"
-                    label="Office Name"
-                    placeholder="Enter Office Name"
-                    value={officeState.name ?? ''}
-                    onChange={handleFormChange}
-                  />
-                  <CustomFormInput
-                    name="address"
-                    label="Office address"
-                    placeholder="Enter Office address"
-                    value={officeState.address ?? ''}
+                    label="Organization Name"
+                    placeholder="Enter Organization Name"
+                    value={orgState.name ?? ''}
                     onChange={handleFormChange}
                   />
                   <CustomFormInput
                     name="description"
-                    label="Office Description"
-                    placeholder="Enter Office Description"
-                    value={officeState.description ?? ''}
+                    label="Organization Description"
+                    placeholder="Enter Organization Description"
+                    value={orgState.description ?? ''}
                     onChange={handleFormChange}
                   />
                 </fieldset>
@@ -84,7 +77,7 @@ const CreateOfficeDialog: FC<CreateOfficeDialogProps> = ({ isOpen, type, onClose
                 <button
                   className="form__button form__button__success"
                   onClick={() => {
-                    console.log('State: ', officeState);
+                    console.log('State: ', orgState);
                   }}
                 >
                   Create
@@ -98,4 +91,4 @@ const CreateOfficeDialog: FC<CreateOfficeDialogProps> = ({ isOpen, type, onClose
   );
 };
 
-export default CreateOfficeDialog;
+export default CreateOrganizationDialog;

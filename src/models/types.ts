@@ -2,26 +2,41 @@ export type NavItem = { name: string; url: string; isAuthRequired: boolean };
 
 export type Office = {
   id: string;
-  companyId: string;
+  organisationId: string;
   type: OfficeType;
   name: string;
   address: string;
-  contact: Employee;
+  contact: string[];
   description: string;
-  image: string;
+  image?: string;
   capacity: number;
   occupied: number;
-  meetingRooms: number;
-  relaxZones: number;
-  printers: number;
+  // meetingRooms: number;
+  // relaxZones: number;
+  // printers: number;
 };
 
-export type Employee = { id: string; name: string; email: string; avatar: string };
+export type Organisation = {
+  id: string;
+  name: string;
+  description: string;
+  contact: string[]; // Coworker ids
+  participants: string[]; // Coworker ids
+  offices: string[]; // Office ids
+  image?: string;
+};
+
+export type Coworker = { id: string; email: string; name?: string; avatar?: string };
 
 export enum OfficeType {
   SIMPLE = 'simple',
   NAMED = 'named',
   BLUEPRINT = 'blueprint',
+}
+
+export enum OrgType {
+  OPEN = 'open', // Coworking space
+  CLOSED = 'closed', // Company
 }
 
 export type AuthToken = {
@@ -35,6 +50,7 @@ export type AuthToken = {
 export type AuthContextType = {
   token: AuthToken | null;
   isLoggedIn: () => boolean;
-  onLogin: (token: AuthToken | null) => void;
+  onLogin: (onLoginToken: AuthToken | null, onLoginCoworkerId: string | null) => void;
   logout: () => void;
+  coworkerId: string | null;
 };

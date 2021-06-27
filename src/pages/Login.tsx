@@ -29,10 +29,14 @@ const Login: FC<LoginProps> = () => {
       headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),
     })
-      .then<{ token?: AuthToken; errors?: string[] }>((raw) => raw.json())
+      .then<{ token?: AuthToken; coworkerId?: string; errors?: string[] }>((raw) => raw.json())
       .then((data) => {
-        if (data.token) {
-          auth.onLogin({ ...data.token, ExpiresIn: new Date().valueOf() + data.token.ExpiresIn * 1000 });
+        console.log(data);
+        if (data.token && data.coworkerId) {
+          auth.onLogin(
+            { ...data.token, ExpiresIn: new Date().valueOf() + data.token.ExpiresIn * 1000 },
+            data.coworkerId,
+          );
           setUsername('');
           setPassword('');
           navigation('/offices', { replace: true });

@@ -6,4 +6,5 @@ export const AuthContext = createContext<AuthContextType>({
   isLoggedIn: () => false,
   onLogin: (token: AuthToken | null) => {},
   logout: () => {},
+  coworkerId: null,
 });

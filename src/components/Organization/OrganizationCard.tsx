@@ -1,15 +1,15 @@
 import { FC } from 'react';
 
-interface OfficeCardProps {
+interface OrganizationCardCardProps {
   title: string;
   disabled?: boolean;
   onClick?: () => void;
 }
 
-const OfficeCard: FC<OfficeCardProps> = ({ title, disabled, onClick }) => (
+const OrganizationCard: FC<OrganizationCardCardProps> = ({ title, disabled, onClick }) => (
   <div
     className={`m-2 sm:m-6 p-2 sm:p-6 w-24 sm:w-40 h-24 sm:h-40 break-words flex-grow flex-shrink-0 ${
-      disabled ? 'bg-gray-300' : 'bg-yellow-300'
+      disabled ? 'bg-gray-300' : 'bg-green-300'
     } rounded sm:rounded-xl shadow`}
     onClick={onClick}
   >
@@ -17,4 +17,4 @@ const OfficeCard: FC<OfficeCardProps> = ({ title, disabled, onClick }) => (
   </div>
 );
 
-export default OfficeCard;
+export default OrganizationCard;

@@ -4,14 +4,12 @@ import SectionHeading from 'components/SectionHeading';
 import { OfficeType } from 'models/types';
 import { FC, useState } from 'react';
 
-interface OfficesProps {}
-
-const Offices: FC<OfficesProps> = () => {
+const Offices: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedType, setSelectedType] = useState<OfficeType | null>(null);
 
-  const handleSimpleOfficeClick = () => {
-    setSelectedType(OfficeType.SIMPLE);
+  const handleCardClick = (officeType: OfficeType) => {
+    setSelectedType(officeType);
     setIsModalOpen(true);
   };
 
@@ -20,11 +18,12 @@ const Offices: FC<OfficesProps> = () => {
   };
 
   return (
-    <section className="border border-gray-200 rounded-xl">
+    <section className="border border-gray-200 rounded sm:rounded-xl">
       <SectionHeading text="Create Office" />
+      <hr></hr>
       <CreateOfficeDialog isOpen={isModalOpen} type={selectedType} onCloseModal={handleCloseModal} />
-      <div className="flex flex-wrap">
-        <OfficeCard title="Simple Office" onClick={handleSimpleOfficeClick} />
+      <div className="flex flex-wrap justify-center">
+        <OfficeCard title="Simple Office" onClick={() => handleCardClick(OfficeType.SIMPLE)} />
         <OfficeCard title="Named Workspaces" disabled />
         <OfficeCard title="Office Blueprint" disabled />
       </div>
