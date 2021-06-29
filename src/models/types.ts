@@ -2,7 +2,7 @@ export type NavItem = { name: string; url: string; isAuthRequired: boolean };
 
 export type Office = {
   id: string;
-  organisationId: string;
+  organizationId: string;
   type: OfficeType;
   name: string;
   address: string;
@@ -16,7 +16,7 @@ export type Office = {
   // printers: number;
 };
 
-export type Organisation = {
+export type Organization = {
   id: string;
   name: string;
   description: string;
@@ -47,10 +47,19 @@ export type AuthToken = {
   TokenType: 'Bearer';
 };
 
+export type CoworkerPayload = Partial<{
+  coworkerId: string;
+  coworkerName: string;
+  authTime: number;
+  issueTime: number;
+  expTime: number;
+  organisations: string[];
+}>;
+
 export type AuthContextType = {
   token: AuthToken | null;
   isLoggedIn: () => boolean;
-  onLogin: (onLoginToken: AuthToken | null, onLoginCoworkerId: string | null) => void;
+  onLogin: (onLoginToken: AuthToken | null, onLoginCoworker: CoworkerPayload | null) => void;
   logout: () => void;
-  coworkerId: string | null;
+  coworker: CoworkerPayload | null;
 };

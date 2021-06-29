@@ -4,6 +4,7 @@ interface CustomFormInputProps {
   value: string | number;
   placeholder: string;
   name: string;
+  disabled?: boolean;
   label?: string;
   type?: 'text' | 'number' | 'password';
   id?: string;
@@ -14,6 +15,7 @@ const CustomFormInput: FC<CustomFormInputProps> = ({
   value,
   placeholder,
   name,
+  disabled,
   label,
   type = 'text',
   id,
@@ -29,6 +31,7 @@ const CustomFormInput: FC<CustomFormInputProps> = ({
       placeholder={placeholder}
       value={value}
       onChange={onChange}
+      disabled={disabled}
     />
   </p>
 );

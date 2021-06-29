@@ -36,7 +36,11 @@ const NavBar: FC<NavBarProps> = ({ logo }) => {
             </div>
           </div>
           {isAuthorized && (
-            <button onClick={auth.logout} className="hidden md:block nav-item bg-red-400 hover:bg-red-300">
+            <button
+              type="button"
+              onClick={auth.logout}
+              className="hidden md:block nav-item bg-red-400 hover:bg-red-300"
+            >
               Logout
             </button>
           )}
@@ -74,30 +78,28 @@ const NavBar: FC<NavBarProps> = ({ logo }) => {
         leaveFrom="opacity-100 scale-100"
         leaveTo="opacity-0 scale-95"
       >
-        {(ref) => (
-          <div className="md:hidden" id="mobile-menu">
-            <div ref={ref} className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              {navigationItems
-                .filter((item) => item.isAuthRequired === isAuthorized)
-                .map((item: NavItem) => (
-                  <NavLink
-                    key={item.url}
-                    to={item.url}
-                    end
-                    className="nav-item burger__nav-item"
-                    activeClassName="nav-item__active burger__nav-item__active"
-                  >
-                    {item.name}
-                  </NavLink>
-                ))}
-              {isAuthorized && (
-                <button onClick={auth.logout} className="nav-item w-full bg-red-400 hover:bg-red-300">
-                  Logout
-                </button>
-              )}
-            </div>
+        <div className="md:hidden" id="mobile-menu">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            {navigationItems
+              .filter((item) => item.isAuthRequired === isAuthorized)
+              .map((item: NavItem) => (
+                <NavLink
+                  key={item.url}
+                  to={item.url}
+                  end
+                  className="nav-item burger__nav-item"
+                  activeClassName="nav-item__active burger__nav-item__active"
+                >
+                  {item.name}
+                </NavLink>
+              ))}
+            {isAuthorized && (
+              <button type="button" onClick={auth.logout} className="nav-item w-full bg-red-400 hover:bg-red-300">
+                Logout
+              </button>
+            )}
           </div>
-        )}
+        </div>
       </Transition>
     </nav>
   );

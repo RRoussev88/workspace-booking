@@ -2,7 +2,7 @@ import { AuthContext } from 'authContext';
 import CustomFormInput from 'components/CustomFormInput';
 import { useNavigate } from 'react-router-dom';
 import { ChangeEvent, ChangeEventHandler, FC, MouseEvent, MouseEventHandler, useContext, useState } from 'react';
-import { AuthToken } from 'models/types';
+import { AuthToken, CoworkerPayload } from 'models/types';
 import SvgIcon from 'components/SvgIcon';
 
 type LoginProps = {};
@@ -29,14 +29,10 @@ const Login: FC<LoginProps> = () => {
       headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),
     })
-      .then<{ token?: AuthToken; coworkerId?: string; errors?: string[] }>((raw) => raw.json())
+      .then<{ token?: AuthToken; payload?: CoworkerPayload; errors?: string[] }>((raw) => raw.json())
       .then((data) => {
-        console.log(data);
-        if (data.token && data.coworkerId) {
-          auth.onLogin(
-            { ...data.token, ExpiresIn: new Date().valueOf() + data.token.ExpiresIn * 1000 },
-            data.coworkerId,
-          );
+        if (data.token && data.payload) {
+          auth.onLogin({ ...data.token, ExpiresIn: new Date().valueOf() + data.token.ExpiresIn * 1000 }, data.payload);
           setUsername('');
           setPassword('');
           navigation('/offices', { replace: true });
@@ -54,6 +50,7 @@ const Login: FC<LoginProps> = () => {
           <div className="p-4 rounded shadow bg-red-100 border-2 border-red-300 flex">
             Incorrect username and/or password
             <button
+              type="button"
               onClick={() => setHasError(false)}
               className="border-2 border-red-300 p-2 rounded-md text-red-300 hover:bg-red-300 hover:text-white focus:outline-none"
             >

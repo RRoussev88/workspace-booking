@@ -2,7 +2,7 @@ import logo from 'assets/logo.svg';
 import Footer from 'components/Footer';
 import NavBar from 'components/NavBar';
 import { LocalStorageKey } from 'models/constants';
-import { AuthToken } from 'models/types';
+import { AuthToken, CoworkerPayload } from 'models/types';
 import Login from 'pages/Login';
 import Offices from 'pages/Offices';
 import Organizations from 'pages/Organizations';
@@ -14,11 +14,11 @@ import { AuthContext } from './authContext';
 
 const App: FC = () => {
   const [token, setToken] = useState<AuthToken | null>(null);
-  const [coworkerId, setCoworkerId] = useState<string | null>(null);
+  const [coworker, setCoworker] = useState<CoworkerPayload | null>(null);
 
   useEffect(() => {
     const storedToken = localStorage.getItem(LocalStorageKey.AUTH);
-    const storedCoworkerId = localStorage.getItem(LocalStorageKey.COWORKER_ID);
+    const storedCoworker = localStorage.getItem(LocalStorageKey.COWORKER);
     if (storedToken) {
       try {
         setToken(JSON.parse(storedToken));
@@ -28,35 +28,35 @@ const App: FC = () => {
       }
     }
 
-    if (storedCoworkerId) {
+    if (storedCoworker) {
       try {
-        setCoworkerId(JSON.parse(storedCoworkerId));
+        setCoworker(JSON.parse(storedCoworker));
       } catch {
         // In case invalid JSON string is stored in localStorage
-        setCoworkerId(null);
+        setCoworker(null);
       }
     }
   }, []);
 
-  const onLogin = (onLoginToken: AuthToken | null, onLoginCoworkerId: string | null) => {
+  const onLogin = (onLoginToken: AuthToken | null, onLoginCoworker: CoworkerPayload | null) => {
     setToken(onLoginToken);
-    setCoworkerId(onLoginCoworkerId);
+    setCoworker(onLoginCoworker);
     localStorage.setItem(LocalStorageKey.AUTH, JSON.stringify(onLoginToken));
-    localStorage.setItem(LocalStorageKey.COWORKER_ID, onLoginCoworkerId ?? '');
+    localStorage.setItem(LocalStorageKey.COWORKER, JSON.stringify(onLoginCoworker));
   };
 
   const logout = () => {
     setToken(null);
-    setCoworkerId(null);
+    setCoworker(null);
     localStorage.removeItem(LocalStorageKey.AUTH);
-    localStorage.removeItem(LocalStorageKey.COWORKER_ID);
+    localStorage.removeItem(LocalStorageKey.COWORKER);
   };
 
   const isLoggedIn = () => !!token && new Date().valueOf() < token.ExpiresIn;
 
   return (
     <StrictMode>
-      <AuthContext.Provider value={{ token, isLoggedIn, onLogin, logout, coworkerId }}>
+      <AuthContext.Provider value={{ token, isLoggedIn, onLogin, logout, coworker }}>
         <Provider store={store}>
           <BrowserRouter>
             <div className="min-h-screen flex flex-col">

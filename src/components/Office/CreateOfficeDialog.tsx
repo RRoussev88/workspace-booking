@@ -78,10 +78,11 @@ const CreateOfficeDialog: FC<CreateOfficeDialogProps> = ({ isOpen, type, onClose
                 </fieldset>
               </form>
               <div className="mt-4 flex justify-between">
-                <button className="form__button form__button__cancel" onClick={onCloseModal}>
+                <button type="button" className="form__button form__button__cancel" onClick={onCloseModal}>
                   Cancel
                 </button>
                 <button
+                  type="button"
                   className="form__button form__button__success"
                   onClick={() => {
                     console.log('State: ', officeState);

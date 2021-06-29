@@ -20,7 +20,7 @@ const Offices: FC = () => {
   return (
     <section className="border border-gray-200 rounded sm:rounded-xl">
       <SectionHeading text="Create Office" />
-      <hr></hr>
+      <hr />
       <CreateOfficeDialog isOpen={isModalOpen} type={selectedType} onCloseModal={handleCloseModal} />
       <div className="flex flex-wrap justify-center">
         <OfficeCard title="Simple Office" onClick={() => handleCardClick(OfficeType.SIMPLE)} />

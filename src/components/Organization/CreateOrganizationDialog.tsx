@@ -1,6 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react';
 import CustomFormInput from 'components/CustomFormInput';
-import { Organisation, OrgType } from 'models/types';
+import { Organization, OrgType } from 'models/types';
 import { ChangeEvent, ChangeEventHandler, FC, Fragment, useState } from 'react';
 
 interface CreateOrganizationDialogProps {
@@ -10,11 +10,13 @@ interface CreateOrganizationDialogProps {
 }
 
 const CreateOrganizationDialog: FC<CreateOrganizationDialogProps> = ({ isOpen, type, onCloseModal }) => {
-  const [orgState, setOrgState] = useState<Partial<Organisation>>({});
+  const [orgState, setOrgState] = useState<Partial<Organization>>({});
 
   const handleFormChange: ChangeEventHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setOrgState((prevState) => ({ ...prevState, [event.target.name]: event.target.value }));
   };
+
+  const submitDisabled = Object.keys(orgState).filter((key) => !!orgState[key as keyof typeof orgState]).length < 2;
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -68,17 +70,29 @@ const CreateOrganizationDialog: FC<CreateOrganizationDialogProps> = ({ isOpen, t
                     value={orgState.description ?? ''}
                     onChange={handleFormChange}
                   />
+                  <CustomFormInput
+                    name="image"
+                    label="Organization Image"
+                    placeholder="Select Organization Image"
+                    value={orgState.image ?? ''}
+                    onChange={handleFormChange}
+                    disabled
+                  />
                 </fieldset>
               </form>
               <div className="mt-4 flex justify-between">
-                <button className="form__button form__button__cancel" onClick={onCloseModal}>
+                <button type="button" className="form__button form__button__cancel" onClick={onCloseModal}>
                   Cancel
                 </button>
                 <button
-                  className="form__button form__button__success"
+                  type="button"
+                  className={`form__button form__button__success ${
+                    submitDisabled ? 'hover:bg-gray-300 bg-gray-300 cursor-default' : ''
+                  }`}
                   onClick={() => {
-                    console.log('State: ', orgState);
+                    console.log('State: ');
                   }}
+                  disabled={submitDisabled}
                 >
                   Create
                 </button>
