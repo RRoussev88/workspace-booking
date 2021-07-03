@@ -63,3 +63,5 @@ export type AuthContextType = {
   logout: () => void;
   coworker: CoworkerPayload | null;
 };
+
+export type APIError = { statusCoe: number; message: string };

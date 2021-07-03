@@ -1,15 +1,18 @@
 import { Dialog, Transition } from '@headlessui/react';
+import { AuthContext } from 'authContext';
 import CustomFormInput from 'components/CustomFormInput';
 import { Organization, OrgType } from 'models/types';
-import { ChangeEvent, ChangeEventHandler, FC, Fragment, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import { ChangeEvent, ChangeEventHandler, FC, Fragment, useContext, useState } from 'react';
 
 interface CreateOrganizationDialogProps {
   isOpen: boolean;
   type: OrgType | null;
-  onCloseModal: () => void;
+  onCloseModal: (shouldFetch?: boolean) => void;
 }
 
 const CreateOrganizationDialog: FC<CreateOrganizationDialogProps> = ({ isOpen, type, onCloseModal }) => {
+  const auth = useContext(AuthContext);
   const [orgState, setOrgState] = useState<Partial<Organization>>({});
 
   const handleFormChange: ChangeEventHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -17,6 +20,28 @@ const CreateOrganizationDialog: FC<CreateOrganizationDialogProps> = ({ isOpen, t
   };
 
   const submitDisabled = Object.keys(orgState).filter((key) => !!orgState[key as keyof typeof orgState]).length < 2;
+
+  const handleSubmit = () => {
+    const newOrg: Organization = {
+      id: uuidv4(),
+      name: orgState.name ?? '',
+      description: orgState.description ?? '',
+      contact: auth.coworker?.coworkerId ? [auth.coworker.coworkerId] : [], // Put current user id
+      offices: [],
+      participants: [],
+    };
+
+    fetch('http://localhost:8000/organizations/add', {
+      method: 'PUT',
+      headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ openOrg: newOrg }),
+    })
+      .then<{ errors?: string[] }>((raw) => raw.json()) // TODO: Handle errors
+      .then(() => {
+        setOrgState({});
+        onCloseModal(true);
+      });
+  };
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -81,7 +106,7 @@ const CreateOrganizationDialog: FC<CreateOrganizationDialogProps> = ({ isOpen, t
                 </fieldset>
               </form>
               <div className="mt-4 flex justify-between">
-                <button type="button" className="form__button form__button__cancel" onClick={onCloseModal}>
+                <button type="button" className="form__button form__button__cancel" onClick={() => onCloseModal()}>
                   Cancel
                 </button>
                 <button
@@ -89,9 +114,7 @@ const CreateOrganizationDialog: FC<CreateOrganizationDialogProps> = ({ isOpen, t
                   className={`form__button form__button__success ${
                     submitDisabled ? 'hover:bg-gray-300 bg-gray-300 cursor-default' : ''
                   }`}
-                  onClick={() => {
-                    console.log('State: ');
-                  }}
+                  onClick={handleSubmit}
                   disabled={submitDisabled}
                 >
                   Create

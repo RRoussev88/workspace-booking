@@ -30,4 +30,8 @@
   .form__button__cancel {
     @apply hover:bg-gray-500 bg-gray-400;
   }
+
+  .action-button {
+    @apply rounded-md shadow flex justify-center items-center h-10 w-12 border border-gray-200 text-gray-300;
+  }
 }

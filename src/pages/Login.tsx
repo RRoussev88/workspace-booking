@@ -54,9 +54,9 @@ const Login: FC<LoginProps> = () => {
               onClick={() => setHasError(false)}
               className="border-2 border-red-300 p-2 rounded-md text-red-300 hover:bg-red-300 hover:text-white focus:outline-none"
             >
-              <SvgIcon
-                path={<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />}
-              />
+              <SvgIcon>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </SvgIcon>
             </button>
           </div>
         )}

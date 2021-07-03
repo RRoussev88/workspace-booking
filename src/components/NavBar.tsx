@@ -54,15 +54,13 @@ const NavBar: FC<NavBarProps> = ({ logo }) => {
             >
               <span className="sr-only">Open main menu</span>
               {isOpen ? (
-                <SvgIcon
-                  path={<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />}
-                />
+                <SvgIcon>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </SvgIcon>
               ) : (
-                <SvgIcon
-                  path={
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                  }
-                />
+                <SvgIcon>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                </SvgIcon>
               )}
             </button>
           </div>
