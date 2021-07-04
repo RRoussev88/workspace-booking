@@ -1,13 +1,13 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { AuthContext } from 'authContext';
 import CustomFormInput from 'components/CustomFormInput';
-import { Organization, OrgType } from 'models/types';
+import { APIError, Organization, OrgType } from 'models/types';
 import { v4 as uuidv4 } from 'uuid';
 import { ChangeEvent, ChangeEventHandler, FC, Fragment, useContext, useState } from 'react';
 
 interface CreateOrganizationDialogProps {
   isOpen: boolean;
-  type: OrgType | null;
+  type: OrgType;
   onCloseModal: (shouldFetch?: boolean) => void;
 }
 
@@ -22,8 +22,9 @@ const CreateOrganizationDialog: FC<CreateOrganizationDialogProps> = ({ isOpen, t
   const submitDisabled = Object.keys(orgState).filter((key) => !!orgState[key as keyof typeof orgState]).length < 2;
 
   const handleSubmit = () => {
-    const newOrg: Organization = {
+    const openOrg: Organization = {
       id: uuidv4(),
+      type,
       name: orgState.name ?? '',
       description: orgState.description ?? '',
       contact: auth.coworker?.coworkerId ? [auth.coworker.coworkerId] : [], // Put current user id
@@ -31,12 +32,16 @@ const CreateOrganizationDialog: FC<CreateOrganizationDialogProps> = ({ isOpen, t
       participants: [],
     };
 
-    fetch('http://localhost:8000/organizations/add', {
+    fetch('http://localhost:8000/organizations/', {
       method: 'PUT',
-      headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
-      body: JSON.stringify({ openOrg: newOrg }),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${auth.token?.AccessToken}`,
+      },
+      body: JSON.stringify({ openOrg }),
     })
-      .then<{ errors?: string[] }>((raw) => raw.json()) // TODO: Handle errors
+      .then<{ error?: APIError }>((raw) => raw.json())
       .then(() => {
         setOrgState({});
         onCloseModal(true);

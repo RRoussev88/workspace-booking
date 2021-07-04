@@ -19,6 +19,7 @@ export type Office = {
 export type Organization = {
   id: string;
   name: string;
+  type: OrgType;
   description: string;
   contact: string[]; // Coworker ids
   participants: string[]; // Coworker ids

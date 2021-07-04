@@ -2,12 +2,14 @@ import OrganizationCard from 'components/Organization/OrganizationCard';
 import CreateOrganizationDialog from 'components/Organization/CreateOrganizationDialog';
 import SectionHeading from 'components/SectionHeading';
 import OrgListItem from 'components/Organization/OrgListItem';
+import { AuthContext } from 'authContext';
 import { APIError, OrgType, Organization } from 'models/types';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useContext, useState } from 'react';
 
 const Organizations: FC = () => {
+  const auth = useContext(AuthContext);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [selectedType, setSelectedType] = useState<OrgType | null>(null);
+  const [selectedType, setSelectedType] = useState<OrgType>(OrgType.OPEN);
   const [organizations, setOrganizations] = useState<Array<Organization>>([]);
 
   useEffect(() => {
@@ -17,20 +19,28 @@ const Organizations: FC = () => {
   const fetchOrganizations = () => {
     fetch('http://localhost:8000/organizations', {
       method: 'GET',
-      headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${auth.token?.AccessToken}`,
+      },
     })
       .then<{ Items?: Array<Organization>; error?: APIError }>((raw) => raw.json())
       .then((data) => {
         if (data.Items) {
-          setOrganizations(data.Items);
+          setOrganizations(data.Items.sort((first, second) => first.name.localeCompare(second.name)));
         }
       });
   };
 
   const handleDelOrg = (orgId: string) => {
-    fetch(`http://localhost:8000/organizations/del/${orgId}`, {
+    fetch(`http://localhost:8000/organizations/${orgId}`, {
       method: 'DELETE',
-      headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${auth.token?.AccessToken}`,
+      },
     }).then((response) => {
       if (response.ok) {
         fetchOrganizations();
