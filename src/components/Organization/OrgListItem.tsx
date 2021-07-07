@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import SvgIcon from 'components/SvgIcon';
-import { Organization } from 'models/types';
+import { Organization } from 'models/organization';
 
 interface OrgListItemProps {
   organization: Organization;
@@ -17,7 +17,7 @@ const OrgListItem: FC<OrgListItemProps> = ({ organization, onDeleteOrganization 
     <div className="m-2 sm:m-6 p-2 sm:p-6 flex flex-wrap justify-between items-center rounded sm:rounded-xl shadow bg-green-300">
       <span className="m-1 sm:text-xl font-normal text-gray-400">{organization.name}</span>
       <div className="flex flex-wrap">
-        <Link to="../offices" className="action-button flex-grow flex-shrink-0 m-1 bg-blue-500 hover:bg-blue-400">
+        <Link to={organization.id} className="action-button flex-grow flex-shrink-0 m-1 bg-blue-500 hover:bg-blue-400">
           <SvgIcon>
             <path
               strokeLinecap="round"

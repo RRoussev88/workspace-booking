@@ -1,6 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react';
 import CustomFormInput from 'components/CustomFormInput';
-import { Office, OfficeType } from 'models/types';
+import { Office, OfficeType } from 'models/office';
 import { ChangeEvent, ChangeEventHandler, FC, Fragment, useState } from 'react';
 
 interface CreateOfficeDialogProps {
@@ -81,13 +81,7 @@ const CreateOfficeDialog: FC<CreateOfficeDialogProps> = ({ isOpen, type, onClose
                 <button type="button" className="form__button form__button__cancel" onClick={onCloseModal}>
                   Cancel
                 </button>
-                <button
-                  type="button"
-                  className="form__button form__button__success"
-                  onClick={() => {
-                    console.log('State: ', officeState);
-                  }}
-                >
+                <button type="button" className="form__button form__button__success" onClick={() => {}}>
                   Create
                 </button>
               </div>

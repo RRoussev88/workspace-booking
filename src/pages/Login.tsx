@@ -1,9 +1,9 @@
 import { AuthContext } from 'authContext';
 import CustomFormInput from 'components/CustomFormInput';
-import { useNavigate } from 'react-router-dom';
-import { ChangeEvent, ChangeEventHandler, FC, MouseEvent, MouseEventHandler, useContext, useState } from 'react';
-import { AuthToken, CoworkerPayload } from 'models/types';
 import SvgIcon from 'components/SvgIcon';
+import { AuthToken, CoworkerPayload } from 'models/context';
+import { ChangeEvent, ChangeEventHandler, FC, MouseEvent, MouseEventHandler, useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 type LoginProps = {};
 

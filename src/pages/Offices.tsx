@@ -1,7 +1,7 @@
 import CreateOfficeDialog from 'components/Office/CreateOfficeDialog';
 import OfficeCard from 'components/Office/OfficeCard';
 import SectionHeading from 'components/SectionHeading';
-import { OfficeType } from 'models/types';
+import { OfficeType } from 'models/office';
 import { FC, useState } from 'react';
 
 const Offices: FC = () => {
@@ -18,7 +18,7 @@ const Offices: FC = () => {
   };
 
   return (
-    <section className="border border-gray-200 rounded sm:rounded-xl">
+    <section className="section__layout">
       <SectionHeading text="Create Office" />
       <hr />
       <CreateOfficeDialog isOpen={isModalOpen} type={selectedType} onCloseModal={handleCloseModal} />

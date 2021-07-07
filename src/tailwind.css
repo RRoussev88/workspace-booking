@@ -34,4 +34,12 @@
   .action-button {
     @apply rounded-md shadow flex justify-center items-center h-10 w-12 border border-gray-200 text-gray-300;
   }
+
+  .section__layout {
+    @apply max-w-2xl mx-auto border border-gray-200 rounded sm:rounded-xl;
+  }
+
+  .section__layout + .section__layout {
+    @apply mt-2 sm:mt-6;
+  }
 }

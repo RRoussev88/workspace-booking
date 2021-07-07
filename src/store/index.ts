@@ -1,6 +1,13 @@
-import { applyMiddleware, createStore } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import thunk from 'redux-thunk';
-import { rootReducer } from './rootReducer';
+import { configureStore } from '@reduxjs/toolkit';
+import offices from './officesSlice';
+import organizations from './organizationsSlice';
 
-export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
+export const store = configureStore({ reducer: { organizations, offices } });
+
+export type RootState = ReturnType<typeof store.getState>;
+
+export interface BaseState<T = any> {
+  data: T[];
+  isLoading: boolean;
+  error: string | null;
+}

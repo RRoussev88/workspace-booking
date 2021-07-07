@@ -2,10 +2,11 @@ import logo from 'assets/logo.svg';
 import Footer from 'components/Footer';
 import NavBar from 'components/NavBar';
 import { LocalStorageKey } from 'models/constants';
-import { AuthToken, CoworkerPayload } from 'models/types';
+import { AuthToken, CoworkerPayload } from 'models/context';
 import Login from 'pages/Login';
 import Offices from 'pages/Offices';
 import Organizations from 'pages/Organizations';
+import OrganizationDetails from 'pages/OrganizationDetails';
 import { FC, StrictMode, useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -67,6 +68,7 @@ const App: FC = () => {
                   {!isLoggedIn() && <Route path="/login" element={<Login />} />}
                   {isLoggedIn() && <Route path="/offices" element={<Offices />} />}
                   {isLoggedIn() && <Route path="/organizations" element={<Organizations />} />}
+                  {isLoggedIn() && <Route path="/organizations/:orgId" element={<OrganizationDetails />} />}
                   <Route path="*" element={isLoggedIn() ? <Offices /> : <Login />} />
                 </Routes>
               </main>
