@@ -42,4 +42,12 @@
   .section__layout + .section__layout {
     @apply mt-2 sm:mt-6;
   }
+
+  .loader__circle {
+    @apply h-3 w-3 bg-blue-400 rounded-full;
+  }
+
+  .loader__circle + .loader__circle {
+    @apply ml-1;
+  }
 }

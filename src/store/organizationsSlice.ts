@@ -2,6 +2,7 @@ import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit';
 import { Organization } from 'models/organization';
 import { BaseState, RootState } from 'store';
 import { LocalStorageKey } from 'models/constants';
+import toaster from 'services/toaster';
 
 export interface OrganizationsSliceState extends BaseState<Organization> {
   activeOrganization: Organization | null;
@@ -59,7 +60,8 @@ export const fetchAllOrganizations = () => async (dispatch: Dispatch) => {
         dispatch(setDataState(data.Items.sort((first, second) => first.name.localeCompare(second.name))));
       }
     } else {
-      throw new Error(response.statusText ?? 'Error fetching organizations');
+      const error = await response.text();
+      throw new Error(error);
     }
   } catch (error) {
     dispatch(setErrorState(error.message));
@@ -71,10 +73,14 @@ export const fetchAllOrganizations = () => async (dispatch: Dispatch) => {
 export const fetchOrganization = (orgId: string) => async (dispatch: Dispatch) => {
   dispatch(setLoadingState(true));
   try {
-    const data: { Item: Organization } = await (
-      await fetch(`http://localhost:8000/organizations/${orgId}`, { method: 'GET', headers })
-    ).json();
-    dispatch(setActiveOrganization(data.Item));
+    const response = await fetch(`http://localhost:8000/organizations/${orgId}`, { method: 'GET', headers });
+    if (response.ok) {
+      const data: { Item: Organization } = await response.json();
+      dispatch(setActiveOrganization(data.Item));
+    } else {
+      const error = await response.text();
+      throw new Error(error);
+    }
   } catch (error) {
     dispatch(setErrorState(error.message));
   } finally {
@@ -82,17 +88,20 @@ export const fetchOrganization = (orgId: string) => async (dispatch: Dispatch) =
   }
 };
 
-export const createOrganization = (newOrganization: Organization) => async (dispatch: Dispatch) => {
+export const createOrganization = (openOrg: Organization) => async (dispatch: Dispatch) => {
   dispatch(setLoadingState(true));
   try {
-    await fetch('http://localhost:8000/organizations/', {
+    const response = await fetch('http://localhost:8000/organizations/', {
       method: 'PUT',
       headers,
-      body: JSON.stringify({ newOrganization }),
+      body: JSON.stringify({ openOrg }),
     });
+    if (!response.ok) {
+      const error = await response.text();
+      throw new Error(error);
+    }
   } catch (error) {
-    // TODO: Replace with toast
-    dispatch(setErrorState(error.message));
+    toaster.toastError(error);
   } finally {
     dispatch(setLoadingState(false));
   }
@@ -101,11 +110,14 @@ export const createOrganization = (newOrganization: Organization) => async (disp
 export const deleteOrganization = (orgId: string) => async (dispatch: Dispatch) => {
   dispatch(setLoadingState(true));
   try {
-    await fetch(`http://localhost:8000/organizations/${orgId}`, { method: 'DELETE', headers });
+    const result = await fetch(`http://localhost:8000/organizations/${orgId}`, { method: 'DELETE', headers });
+    if (!result.ok) {
+      const error = await result.text();
+      throw new Error(error);
+    }
     fetchAllOrganizations()(dispatch);
   } catch (error) {
-    // TODO: Replace with toast
-    dispatch(setErrorState(error.message));
+    toaster.toastError(error);
     dispatch(setLoadingState(false));
   }
 };

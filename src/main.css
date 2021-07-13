@@ -731,6 +731,18 @@ video {
   }
 }
 
+.loader__circle {
+  --tw-bg-opacity: 1;
+  background-color: rgba(96, 165, 250, var(--tw-bg-opacity));
+  border-radius: 9999px;
+  height: 0.75rem;
+  width: 0.75rem;
+}
+
+.loader__circle + .loader__circle {
+  margin-left: 0.25rem;
+}
+
 .space-y-0 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: calc(0px * calc(1 - var(--tw-space-y-reverse)));
@@ -31391,6 +31403,16 @@ video {
 .animate-bounce {
   -webkit-animation: bounce 1s infinite;
           animation: bounce 1s infinite;
+}
+
+.animate-bounce200 {
+  -webkit-animation: bounce 1s infinite 200ms;
+          animation: bounce 1s infinite 200ms;
+}
+
+.animate-bounce400 {
+  -webkit-animation: bounce 1s infinite 400ms;
+          animation: bounce 1s infinite 400ms;
 }
 
 .mix-blend-normal {
@@ -62641,6 +62663,16 @@ video {
             animation: bounce 1s infinite;
   }
 
+  .sm\:animate-bounce200 {
+    -webkit-animation: bounce 1s infinite 200ms;
+            animation: bounce 1s infinite 200ms;
+  }
+
+  .sm\:animate-bounce400 {
+    -webkit-animation: bounce 1s infinite 400ms;
+            animation: bounce 1s infinite 400ms;
+  }
+
   .sm\:mix-blend-normal {
     mix-blend-mode: normal;
   }
@@ -93796,6 +93828,16 @@ video {
   .md\:animate-bounce {
     -webkit-animation: bounce 1s infinite;
             animation: bounce 1s infinite;
+  }
+
+  .md\:animate-bounce200 {
+    -webkit-animation: bounce 1s infinite 200ms;
+            animation: bounce 1s infinite 200ms;
+  }
+
+  .md\:animate-bounce400 {
+    -webkit-animation: bounce 1s infinite 400ms;
+            animation: bounce 1s infinite 400ms;
   }
 
   .md\:mix-blend-normal {
@@ -124955,6 +124997,16 @@ video {
             animation: bounce 1s infinite;
   }
 
+  .lg\:animate-bounce200 {
+    -webkit-animation: bounce 1s infinite 200ms;
+            animation: bounce 1s infinite 200ms;
+  }
+
+  .lg\:animate-bounce400 {
+    -webkit-animation: bounce 1s infinite 400ms;
+            animation: bounce 1s infinite 400ms;
+  }
+
   .lg\:mix-blend-normal {
     mix-blend-mode: normal;
   }
@@ -156112,6 +156164,16 @@ video {
             animation: bounce 1s infinite;
   }
 
+  .xl\:animate-bounce200 {
+    -webkit-animation: bounce 1s infinite 200ms;
+            animation: bounce 1s infinite 200ms;
+  }
+
+  .xl\:animate-bounce400 {
+    -webkit-animation: bounce 1s infinite 400ms;
+            animation: bounce 1s infinite 400ms;
+  }
+
   .xl\:mix-blend-normal {
     mix-blend-mode: normal;
   }
@@ -187267,6 +187329,16 @@ video {
   .\32xl\:animate-bounce {
     -webkit-animation: bounce 1s infinite;
             animation: bounce 1s infinite;
+  }
+
+  .\32xl\:animate-bounce200 {
+    -webkit-animation: bounce 1s infinite 200ms;
+            animation: bounce 1s infinite 200ms;
+  }
+
+  .\32xl\:animate-bounce400 {
+    -webkit-animation: bounce 1s infinite 400ms;
+            animation: bounce 1s infinite 400ms;
   }
 
   .\32xl\:mix-blend-normal {

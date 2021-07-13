@@ -5,11 +5,13 @@ import { LocalStorageKey } from 'models/constants';
 import { AuthToken, CoworkerPayload } from 'models/context';
 import Login from 'pages/Login';
 import Offices from 'pages/Offices';
-import Organizations from 'pages/Organizations';
 import OrganizationDetails from 'pages/OrganizationDetails';
+import Organizations from 'pages/Organizations';
 import { FC, StrictMode, useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { store } from 'store';
 import { AuthContext } from './authContext';
 
@@ -77,6 +79,7 @@ const App: FC = () => {
           </BrowserRouter>
         </Provider>
       </AuthContext.Provider>
+      <ToastContainer />
     </StrictMode>
   );
 };

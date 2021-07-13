@@ -1,6 +1,7 @@
 import AppMessage from 'components/AppMessage';
 import OrgListItem from 'components/Organization/OrgListItem';
 import SectionHeading from 'components/SectionHeading';
+import Loader from 'components/Loader';
 import { AppMessageVariant } from 'models/types';
 import { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,15 +9,11 @@ import { deleteOrganization, fetchAllOrganizations, selectOrganizationsState } f
 
 const OrganizationsList: FC = () => {
   const dispatch = useDispatch();
-  const { data: organizations, error } = useSelector(selectOrganizationsState);
+  const { data: organizations, error, isLoading } = useSelector(selectOrganizationsState);
 
   useEffect(() => {
-    fetchOrganizations();
-  }, []);
-
-  const fetchOrganizations = () => {
     dispatch(fetchAllOrganizations());
-  };
+  }, []);
 
   const handleDelOrg = (orgId: string) => {
     dispatch(deleteOrganization(orgId));
@@ -37,7 +34,7 @@ const OrganizationsList: FC = () => {
     <section className="section__layout">
       <SectionHeading text="Organizations List" />
       <hr />
-      <div className="flex flex-col justify-center">{renderList()}</div>
+      <div className="flex flex-col justify-center overflow-hidden">{isLoading ? <Loader /> : renderList()}</div>
     </section>
   );
 };

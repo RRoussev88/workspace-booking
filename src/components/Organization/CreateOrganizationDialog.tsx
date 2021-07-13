@@ -30,7 +30,7 @@ const CreateOrganizationDialog: FC<CreateOrganizationDialogProps> = ({ isOpen, t
       type,
       name: orgState.name ?? '',
       description: orgState.description ?? '',
-      contact: auth.coworker?.coworkerId ? [auth.coworker.coworkerId] : [], // Put current user id
+      contact: auth.coworker?.coworkerEmail ? [auth.coworker.coworkerEmail] : [], // Put current user email
       offices: [],
       participants: [],
     };

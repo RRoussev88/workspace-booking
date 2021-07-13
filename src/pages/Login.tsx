@@ -24,6 +24,7 @@ const Login: FC<LoginProps> = () => {
 
   const handleSubmit: MouseEventHandler = (event: MouseEvent<HTMLInputElement>) => {
     event.preventDefault();
+    auth.logout();
     fetch('http://localhost:8000/auth/signin', {
       method: 'POST',
       headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
