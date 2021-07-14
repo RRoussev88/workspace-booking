@@ -3,17 +3,30 @@ import OrgListItem from 'components/Organization/OrgListItem';
 import SectionHeading from 'components/SectionHeading';
 import Loader from 'components/Loader';
 import { AppMessageVariant } from 'models/types';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteOrganization, fetchAllOrganizations, selectOrganizationsState } from 'store/organizationsSlice';
+import { AuthContext } from 'authContext';
+import {
+  deleteOrganization,
+  fetchAllOrganizations,
+  selectOrganizationsState,
+  resetState,
+} from 'store/organizationsSlice';
 
 const OrganizationsList: FC = () => {
+  const auth = useContext(AuthContext);
   const dispatch = useDispatch();
   const { data: organizations, error, isLoading } = useSelector(selectOrganizationsState);
 
   useEffect(() => {
-    dispatch(fetchAllOrganizations());
-  }, []);
+    if (auth.isLoggedIn()) {
+      dispatch(fetchAllOrganizations());
+    }
+
+    return () => {
+      dispatch(resetState());
+    };
+  }, [auth.isLoggedIn, dispatch, resetState, fetchAllOrganizations]);
 
   const handleDelOrg = (orgId: string) => {
     dispatch(deleteOrganization(orgId));

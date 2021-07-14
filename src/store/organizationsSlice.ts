@@ -44,16 +44,16 @@ export const selectOrganizationsState = (state: RootState) => state.organization
 
 export default organizationsSlice.reducer;
 
-const headers = {
+const getHeaders = () => ({
   Accept: 'application/json',
   'Content-Type': 'application/json',
-  Authorization: `Bearer ${JSON.parse(localStorage.getItem(LocalStorageKey.AUTH) ?? '')?.AccessToken}`,
-};
+  Authorization: `Bearer ${JSON.parse(localStorage.getItem(LocalStorageKey.AUTH) ?? '{}')?.AccessToken}`,
+});
 
 export const fetchAllOrganizations = () => async (dispatch: Dispatch) => {
   dispatch(setLoadingState(true));
   try {
-    const response = await fetch('http://localhost:8000/organizations', { method: 'GET', headers });
+    const response = await fetch('http://localhost:8000/organizations', { method: 'GET', headers: getHeaders() });
     if (response.ok) {
       const data: { Items?: Organization[] } = await response.json();
       if (data.Items) {
@@ -73,7 +73,10 @@ export const fetchAllOrganizations = () => async (dispatch: Dispatch) => {
 export const fetchOrganization = (orgId: string) => async (dispatch: Dispatch) => {
   dispatch(setLoadingState(true));
   try {
-    const response = await fetch(`http://localhost:8000/organizations/${orgId}`, { method: 'GET', headers });
+    const response = await fetch(`http://localhost:8000/organizations/${orgId}`, {
+      method: 'GET',
+      headers: getHeaders(),
+    });
     if (response.ok) {
       const data: { Item: Organization } = await response.json();
       dispatch(setActiveOrganization(data.Item));
@@ -93,7 +96,7 @@ export const createOrganization = (openOrg: Organization) => async (dispatch: Di
   try {
     const response = await fetch('http://localhost:8000/organizations/', {
       method: 'PUT',
-      headers,
+      headers: getHeaders(),
       body: JSON.stringify({ openOrg }),
     });
     if (!response.ok) {
@@ -110,7 +113,10 @@ export const createOrganization = (openOrg: Organization) => async (dispatch: Di
 export const deleteOrganization = (orgId: string) => async (dispatch: Dispatch) => {
   dispatch(setLoadingState(true));
   try {
-    const result = await fetch(`http://localhost:8000/organizations/${orgId}`, { method: 'DELETE', headers });
+    const result = await fetch(`http://localhost:8000/organizations/${orgId}`, {
+      method: 'DELETE',
+      headers: getHeaders(),
+    });
     if (!result.ok) {
       const error = await result.text();
       throw new Error(error);

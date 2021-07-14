@@ -66,12 +66,12 @@ const App: FC = () => {
               <NavBar logo={logo} />
               <main className="max-w-7xl w-full sm:w-8/12 mx-auto p-4 sm:p-6 lg:p-8">
                 <Routes>
-                  <Route path="/" element={isLoggedIn() ? <Offices /> : <Login />} />
+                  <Route path="/" element={isLoggedIn() ? <Organizations /> : <Login />} />
                   {!isLoggedIn() && <Route path="/login" element={<Login />} />}
                   {isLoggedIn() && <Route path="/offices" element={<Offices />} />}
                   {isLoggedIn() && <Route path="/organizations" element={<Organizations />} />}
                   {isLoggedIn() && <Route path="/organizations/:orgId" element={<OrganizationDetails />} />}
-                  <Route path="*" element={isLoggedIn() ? <Offices /> : <Login />} />
+                  <Route path="*" element={isLoggedIn() ? <Organizations /> : <Login />} />
                 </Routes>
               </main>
               <Footer />

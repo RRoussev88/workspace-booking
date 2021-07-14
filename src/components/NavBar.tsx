@@ -3,15 +3,21 @@ import { AuthContext } from 'authContext';
 import SvgIcon from 'components/SvgIcon';
 import { NavItem } from 'models/types';
 import { FC, useContext, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { navigationItems } from 'utils';
 
 type NavBarProps = { logo: string };
 
 const NavBar: FC<NavBarProps> = ({ logo }) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const navigation = useNavigate();
   const auth = useContext(AuthContext);
   const isAuthorized = auth.isLoggedIn();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const handleLogout = () => {
+    auth.logout();
+    navigation('/login', { replace: true });
+  };
 
   return (
     <nav className="bg-gray-800">
@@ -38,7 +44,7 @@ const NavBar: FC<NavBarProps> = ({ logo }) => {
           {isAuthorized && (
             <button
               type="button"
-              onClick={auth.logout}
+              onClick={handleLogout}
               className="hidden md:block nav-item bg-red-400 hover:bg-red-300"
             >
               Logout
@@ -92,7 +98,7 @@ const NavBar: FC<NavBarProps> = ({ logo }) => {
                 </NavLink>
               ))}
             {isAuthorized && (
-              <button type="button" onClick={auth.logout} className="nav-item w-full bg-red-400 hover:bg-red-300">
+              <button type="button" onClick={handleLogout} className="nav-item w-full bg-red-400 hover:bg-red-300">
                 Logout
               </button>
             )}

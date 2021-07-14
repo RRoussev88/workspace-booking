@@ -36,7 +36,7 @@ const Login: FC<LoginProps> = () => {
           auth.onLogin({ ...data.token, ExpiresIn: new Date().valueOf() + data.token.ExpiresIn * 1000 }, data.payload);
           setUsername('');
           setPassword('');
-          navigation('/offices', { replace: true });
+          navigation('/organizations', { replace: true });
         } else if (data.errors?.length) {
           setHasError(true);
         }
