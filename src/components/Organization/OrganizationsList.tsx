@@ -1,16 +1,16 @@
+import { AuthContext } from 'authContext';
 import AppMessage from 'components/AppMessage';
+import Loader from 'components/Loader';
 import OrgListItem from 'components/Organization/OrgListItem';
 import SectionHeading from 'components/SectionHeading';
-import Loader from 'components/Loader';
 import { AppMessageVariant } from 'models/types';
-import { FC, useEffect, useContext } from 'react';
+import { FC, useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AuthContext } from 'authContext';
 import {
   deleteOrganization,
   fetchAllOrganizations,
-  selectOrganizationsState,
   resetState,
+  selectOrganizationsState,
 } from 'store/organizationsSlice';
 
 const OrganizationsList: FC = () => {
@@ -46,7 +46,7 @@ const OrganizationsList: FC = () => {
   return (
     <section className="section__layout">
       <SectionHeading text="Organizations List" />
-      <hr />
+      <hr className="divider" />
       <div className="flex flex-col justify-center overflow-hidden">{isLoading ? <Loader /> : renderList()}</div>
     </section>
   );

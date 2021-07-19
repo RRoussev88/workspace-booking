@@ -14,7 +14,7 @@ const OrgListItem: FC<OrgListItemProps> = ({ organization, onDeleteOrganization 
   };
 
   return (
-    <div className="m-2 sm:m-6 p-2 sm:p-6 flex flex-wrap justify-between items-center rounded sm:rounded-xl shadow bg-green-300">
+    <div className="list__item">
       <span className="m-1 sm:text-xl font-normal text-gray-400">{organization.name}</span>
       <div className="flex flex-wrap">
         <Link to={organization.id} className="action-button flex-grow flex-shrink-0 m-1 bg-blue-500 hover:bg-blue-400">

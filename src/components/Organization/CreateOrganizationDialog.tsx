@@ -1,6 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { AuthContext } from 'authContext';
 import CustomFormInput from 'components/CustomFormInput';
+import CustomTextArea from 'components/CustomTextArea';
 import { Organization, OrgType } from 'models/organization';
 import { ChangeEvent, ChangeEventHandler, FC, Fragment, useContext, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -75,18 +76,20 @@ const CreateOrganizationDialog: FC<CreateOrganizationDialogProps> = ({ isOpen, t
               <form className="max-w-sm mx-auto my-4 sm:my-6 lg:my-8 bg-gray-100 p-4 sm:p-6 lg:p-8 rounded shadow">
                 <fieldset className="text-gray-600">
                   <legend className="mx-auto ext-sm text-gray-500">
-                    {type === OrgType.OPEN && 'Create coworking space.'}
+                    {type === OrgType.OPEN ? 'Create coworking space' : 'Company with offices'}
                   </legend>
                   <CustomFormInput
                     name="name"
                     label="Organization Name"
+                    containerClasses="mt-9"
                     placeholder="Enter Organization Name"
                     value={orgState.name ?? ''}
                     onChange={handleFormChange}
                   />
-                  <CustomFormInput
+                  <CustomTextArea
                     name="description"
                     label="Organization Description"
+                    containerClasses="mt-9"
                     placeholder="Enter Organization Description"
                     value={orgState.description ?? ''}
                     onChange={handleFormChange}
@@ -94,6 +97,7 @@ const CreateOrganizationDialog: FC<CreateOrganizationDialogProps> = ({ isOpen, t
                   <CustomFormInput
                     name="image"
                     label="Organization Image"
+                    containerClasses="mt-9"
                     placeholder="Select Organization Image"
                     value={orgState.image ?? ''}
                     onChange={handleFormChange}

@@ -1,5 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react';
 import CustomFormInput from 'components/CustomFormInput';
+import CustomTextArea from 'components/CustomTextArea';
 import { Office, OfficeType } from 'models/office';
 import { ChangeEvent, ChangeEventHandler, FC, Fragment, useState } from 'react';
 
@@ -52,11 +53,12 @@ const CreateOfficeDialog: FC<CreateOfficeDialogProps> = ({ isOpen, type, onClose
               <form className="max-w-sm mx-auto my-4 sm:my-6 lg:my-8 bg-gray-100 p-4 sm:p-6 lg:p-8 rounded shadow">
                 <fieldset className="text-gray-600">
                   <legend className="mx-auto ext-sm text-gray-500">
-                    {type === OfficeType.SIMPLE && 'Create an office with specified bumber of work places.'}
+                    {type === OfficeType.SIMPLE && 'Create an office with specified number of work places'}
                   </legend>
                   <CustomFormInput
                     name="name"
                     label="Office Name"
+                    containerClasses="mt-9"
                     placeholder="Enter Office Name"
                     value={officeState.name ?? ''}
                     onChange={handleFormChange}
@@ -64,13 +66,15 @@ const CreateOfficeDialog: FC<CreateOfficeDialogProps> = ({ isOpen, type, onClose
                   <CustomFormInput
                     name="address"
                     label="Office address"
+                    containerClasses="mt-9"
                     placeholder="Enter Office address"
                     value={officeState.address ?? ''}
                     onChange={handleFormChange}
                   />
-                  <CustomFormInput
+                  <CustomTextArea
                     name="description"
                     label="Office Description"
+                    containerClasses="mt-9"
                     placeholder="Enter Office Description"
                     value={officeState.description ?? ''}
                     onChange={handleFormChange}

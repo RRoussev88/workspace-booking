@@ -1,39 +1,39 @@
 import { FC, ChangeEventHandler } from 'react';
 
-interface CustomFormInputProps {
+interface CustomTextAreaProps {
   value: string | number;
   name: string;
   containerClasses?: string;
   placeholder?: string;
   disabled?: boolean;
   label?: string;
-  type?: 'text' | 'number' | 'password';
+  rows?: number;
   id?: string;
   onChange: ChangeEventHandler;
 }
 
-const CustomFormInput: FC<CustomFormInputProps> = ({
+const CustomFormInput: FC<CustomTextAreaProps> = ({
   value,
   name,
   containerClasses,
   placeholder,
   disabled,
   label,
-  type = 'text',
+  rows,
   id,
   onChange,
 }) => (
   <p className={containerClasses}>
     <label className="text-lg" htmlFor={id ?? name}>{label ?? name}</label>
-    <input
-      className="block my-1 px-3 w-full h-8 rounded-2xl shadow focus:outline-none focus:ring"
-      type={type}
+    <textarea
+      className="block my-1 p-3 w-full rounded-2xl shadow focus:outline-none focus:ring"
       name={name}
       id={id ?? name}
       placeholder={placeholder}
       value={value}
       onChange={onChange}
       disabled={disabled}
+      rows={rows ?? 3}
     />
   </p>
 );

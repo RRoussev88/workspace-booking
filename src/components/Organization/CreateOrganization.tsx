@@ -5,7 +5,7 @@ import { OrgType } from 'models/organization';
 import { FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchAllOrganizations } from 'store/organizationsSlice';
- 
+
 const CreateOrganization: FC = () => {
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -23,17 +23,17 @@ const CreateOrganization: FC = () => {
     }
   };
 
-  return ( 
+  return (
     <section className="section__layout">
-        <SectionHeading text="Create Organization" />
-        <hr />
-        <CreateOrganizationDialog isOpen={isModalOpen} type={selectedType} onCloseModal={handleCloseModal} />
-        <div className="flex flex-wrap justify-center">
-          <OrganizationCard title="Coworking Space" onClick={() => handleCardClick(OrgType.OPEN)} />
-          <OrganizationCard title="Company" onClick={() => handleCardClick(OrgType.CLOSED)} />
-        </div>
-      </section>
-   );
-}
- 
+      <SectionHeading text="Create Organization" />
+      <hr className="divider" />
+      <CreateOrganizationDialog isOpen={isModalOpen} type={selectedType} onCloseModal={handleCloseModal} />
+      <div className="flex flex-wrap justify-center -m-1 sm:-m-3">
+        <OrganizationCard title="Coworking Space" onClick={() => handleCardClick(OrgType.OPEN)} />
+        <OrganizationCard title="Company" onClick={() => handleCardClick(OrgType.CLOSED)} />
+      </div>
+    </section>
+  );
+};
+
 export default CreateOrganization;

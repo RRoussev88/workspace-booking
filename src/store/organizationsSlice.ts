@@ -1,8 +1,8 @@
 import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit';
-import { Organization } from 'models/organization';
-import { BaseState, RootState } from 'store';
 import { LocalStorageKey } from 'models/constants';
+import { Organization } from 'models/organization';
 import toaster from 'services/toaster';
+import { BaseState, RootState } from 'store';
 
 export interface OrganizationsSliceState extends BaseState<Organization> {
   activeOrganization: Organization | null;

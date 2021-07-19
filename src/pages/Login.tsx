@@ -64,6 +64,7 @@ const Login: FC<LoginProps> = () => {
         <CustomFormInput
           name="username"
           label="Username"
+          containerClasses="mt-9"
           placeholder="Enter Username"
           value={username}
           onChange={handleUsernameChange}
@@ -72,6 +73,7 @@ const Login: FC<LoginProps> = () => {
           name="password"
           label="Password"
           type="password"
+          containerClasses="my-9"
           placeholder="Enter Password"
           value={password}
           onChange={handlePasswordChange}

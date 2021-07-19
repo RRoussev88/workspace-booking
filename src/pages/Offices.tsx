@@ -20,9 +20,9 @@ const Offices: FC = () => {
   return (
     <section className="section__layout">
       <SectionHeading text="Create Office" />
-      <hr />
+      <hr className="divider" />
       <CreateOfficeDialog isOpen={isModalOpen} type={selectedType} onCloseModal={handleCloseModal} />
-      <div className="flex flex-wrap justify-center">
+      <div className="flex flex-wrap justify-center -m-1 sm:-m-3">
         <OfficeCard title="Simple Office" onClick={() => handleCardClick(OfficeType.SIMPLE)} />
         <OfficeCard title="Named Workspaces" disabled />
         <OfficeCard title="Office Blueprint" disabled />

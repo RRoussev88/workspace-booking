@@ -639,8 +639,8 @@ video {
   border-radius: 1rem;
   display: block;
   height: 2rem;
-  margin-top: 0.25rem;
-  margin-bottom: 0.25rem;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
 }
 
 .form__button:focus {
@@ -664,6 +664,15 @@ video {
 .form__button {
   --tw-text-opacity: 1;
   color: rgba(255, 255, 255, var(--tw-text-opacity));
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .form__button {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+    width: auto;
+  }
 }
 
 .form__button__success {
@@ -713,11 +722,13 @@ video {
   margin-left: auto;
   margin-right: auto;
   max-width: 42rem;
+  padding: 0.5rem;
 }
 
 @media (min-width: 640px) {
   .section__layout {
     border-radius: 0.75rem;
+    padding: 1.5rem;
   }
 }
 
@@ -741,6 +752,78 @@ video {
 
 .loader__circle + .loader__circle {
   margin-left: 0.25rem;
+}
+
+.divider {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .divider {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.card-button {
+  border-radius: 0.25rem;
+  -webkit-flex-grow: 1;
+          flex-grow: 1;
+  -webkit-flex-shrink: 0;
+          flex-shrink: 0;
+  height: 6rem;
+  margin: 0.25rem;
+  padding: 0.5rem;
+  --tw-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  overflow-wrap: break-word;
+  width: 6rem;
+}
+
+@media (min-width: 640px) {
+  .card-button {
+    border-radius: 0.75rem;
+    height: 10rem;
+    margin: 0.75rem;
+    padding: 1.5rem;
+    width: 10rem;
+  }
+}
+
+.list__item {
+  --tw-bg-opacity: 1;
+  background-color: rgba(110, 231, 183, var(--tw-bg-opacity));
+  border-radius: 0.25rem;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+          flex-wrap: wrap;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  padding: 0.5rem;
+  --tw-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+@media (min-width: 640px) {
+  .list__item {
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+  }
+}
+
+.list__item + .list__item {
+  margin-top: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .list__item + .list__item {
+    margin-top: 1.5rem;
+  }
 }
 
 .space-y-0 > :not([hidden]) ~ :not([hidden]) {
