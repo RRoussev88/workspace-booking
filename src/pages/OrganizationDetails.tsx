@@ -8,8 +8,8 @@ import { Organization, OrgType } from 'models/organization';
 import { AppMessageVariant } from 'models/types';
 import { ChangeEvent, ChangeEventHandler, FC, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { fetchOrganization, resetState, selectOrganizationsState } from 'store/organizationsSlice';
+import { Link, useParams } from 'react-router-dom';
+import { fetchOrganization, resetState, selectOrganizationsState, updateOrganization } from 'store/organizationsSlice';
 
 const OrganizationDetails: FC = () => {
   const auth = useContext(AuthContext);
@@ -85,7 +85,15 @@ const OrganizationDetails: FC = () => {
             </>
           )}
           <dt className="mt-2 sm:mt-6 text-lg underline">Offices</dt>
-          <dd>{`This organization has ${orgState.offices.length || 'no'} offices`}</dd>
+          <dd className="flex flex-wrap items-center justify-between">
+            <span>{`This organization has ${orgState.offices.length || 'no'} offices`}</span>
+            <Link
+              to={`/organizations/${orgId}/offices`}
+              className="action-button w-24 m-1 text-gray-400 bg-yellow-300 hover:bg-yellow-200"
+            >
+              Offices
+            </Link>
+          </dd>
         </dl>
       )}
       {!!auth.coworker?.coworkerEmail && orgState?.contact.includes(auth.coworker?.coworkerEmail) && (
@@ -106,7 +114,12 @@ const OrganizationDetails: FC = () => {
               <button
                 type="button"
                 className="form__button form__button__success"
-                onClick={() => setInEditMode((prevState) => !prevState)}
+                onClick={async () => {
+                  if (orgState) {
+                    await dispatch(updateOrganization(orgState));
+                  }
+                  setInEditMode((prevState) => !prevState);
+                }}
               >
                 Save
               </button>

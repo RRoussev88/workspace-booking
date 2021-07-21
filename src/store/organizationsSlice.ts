@@ -29,7 +29,7 @@ export const organizationsSlice = createSlice({
     setLoadingState(state: OrganizationsSliceState, action: PayloadAction<boolean>) {
       state.isLoading = action.payload;
     },
-    setErrorState(state: OrganizationsSliceState, action: PayloadAction<string>) {
+    setErrorState(state: OrganizationsSliceState, action: PayloadAction<string | null>) {
       state.error = action.payload;
     },
     resetState: () => initialState,
@@ -44,6 +44,8 @@ export const selectOrganizationsState = (state: RootState) => state.organization
 
 export default organizationsSlice.reducer;
 
+const ORG_URL = 'http://localhost:8000/organizations';
+
 const getHeaders = () => ({
   Accept: 'application/json',
   'Content-Type': 'application/json',
@@ -51,9 +53,10 @@ const getHeaders = () => ({
 });
 
 export const fetchAllOrganizations = () => async (dispatch: Dispatch) => {
+  dispatch(setErrorState(null));
   dispatch(setLoadingState(true));
   try {
-    const response = await fetch('http://localhost:8000/organizations', { method: 'GET', headers: getHeaders() });
+    const response = await fetch(ORG_URL, { method: 'GET', headers: getHeaders() });
     if (response.ok) {
       const data: { Items?: Organization[] } = await response.json();
       if (data.Items) {
@@ -64,16 +67,17 @@ export const fetchAllOrganizations = () => async (dispatch: Dispatch) => {
       throw new Error(error);
     }
   } catch (error) {
-    dispatch(setErrorState(error.message));
+    dispatch(setErrorState(error.message || 'Error fetching organizations list'));
   } finally {
     dispatch(setLoadingState(false));
   }
 };
 
 export const fetchOrganization = (orgId: string) => async (dispatch: Dispatch) => {
+  dispatch(setErrorState(null));
   dispatch(setLoadingState(true));
   try {
-    const response = await fetch(`http://localhost:8000/organizations/${orgId}`, {
+    const response = await fetch(`${ORG_URL}/${orgId}`, {
       method: 'GET',
       headers: getHeaders(),
     });
@@ -85,7 +89,7 @@ export const fetchOrganization = (orgId: string) => async (dispatch: Dispatch) =
       throw new Error(error);
     }
   } catch (error) {
-    dispatch(setErrorState(error.message));
+    dispatch(setErrorState(error.message || 'Error fetching organization'));
   } finally {
     dispatch(setLoadingState(false));
   }
@@ -94,8 +98,27 @@ export const fetchOrganization = (orgId: string) => async (dispatch: Dispatch) =
 export const createOrganization = (openOrg: Organization) => async (dispatch: Dispatch) => {
   dispatch(setLoadingState(true));
   try {
-    const response = await fetch('http://localhost:8000/organizations/', {
+    const response = await fetch(ORG_URL, {
       method: 'PUT',
+      headers: getHeaders(),
+      body: JSON.stringify({ openOrg }),
+    });
+    if (!response.ok) {
+      const error = await response.text();
+      throw new Error(error);
+    }
+  } catch (error) {
+    toaster.toastError(error);
+  } finally {
+    dispatch(setLoadingState(false));
+  }
+};
+
+export const updateOrganization = (openOrg: Organization) => async (dispatch: Dispatch) => {
+  dispatch(setLoadingState(true));
+  try {
+    const response = await fetch(ORG_URL, {
+      method: 'PATCH',
       headers: getHeaders(),
       body: JSON.stringify({ openOrg }),
     });
@@ -113,7 +136,7 @@ export const createOrganization = (openOrg: Organization) => async (dispatch: Di
 export const deleteOrganization = (orgId: string) => async (dispatch: Dispatch) => {
   dispatch(setLoadingState(true));
   try {
-    const result = await fetch(`http://localhost:8000/organizations/${orgId}`, {
+    const result = await fetch(`${ORG_URL}/${orgId}`, {
       method: 'DELETE',
       headers: getHeaders(),
     });

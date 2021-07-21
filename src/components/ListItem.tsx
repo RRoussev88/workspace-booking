@@ -1,23 +1,26 @@
-import { FC } from 'react';
-import { Link } from 'react-router-dom';
 import SvgIcon from 'components/SvgIcon';
-import { Organization } from 'models/organization';
+import { ReactElement } from 'react';
+import { Link } from 'react-router-dom';
 
-interface OrgListItemProps {
-  organization: Organization;
-  onDeleteOrganization: (orgId: string) => void;
+type BaseItem = { id: string; name: string };
+
+interface ListItemProps<T extends BaseItem> {
+  item: T;
+  onDelete: (orgId: string) => void;
 }
 
-const OrgListItem: FC<OrgListItemProps> = ({ organization, onDeleteOrganization }) => {
+const ListItem: <ItemType extends BaseItem>(
+  props: ListItemProps<BaseItem>,
+) => ReactElement<ListItemProps<ItemType>> = ({ item, onDelete }) => {
   const onDeleteOrg = () => {
-    onDeleteOrganization(organization.id);
+    onDelete(item.id);
   };
 
   return (
     <div className="list__item">
-      <span className="m-1 sm:text-xl font-normal text-gray-400">{organization.name}</span>
+      <span className="m-1 sm:text-xl font-normal text-gray-400">{item.name}</span>
       <div className="flex flex-wrap">
-        <Link to={organization.id} className="action-button flex-grow flex-shrink-0 m-1 bg-blue-500 hover:bg-blue-400">
+        <Link to={item.id} className="action-button flex-grow flex-shrink-0 m-1 bg-blue-500 hover:bg-blue-400">
           <SvgIcon>
             <path
               strokeLinecap="round"
@@ -46,4 +49,4 @@ const OrgListItem: FC<OrgListItemProps> = ({ organization, onDeleteOrganization 
   );
 };
 
-export default OrgListItem;
+export default ListItem;

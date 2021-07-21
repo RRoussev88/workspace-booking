@@ -6,6 +6,7 @@ import { AuthToken, CoworkerPayload } from 'models/context';
 import Login from 'pages/Login';
 import Offices from 'pages/Offices';
 import OrganizationDetails from 'pages/OrganizationDetails';
+import OrgOffices from 'pages/OrgOffices';
 import Organizations from 'pages/Organizations';
 import { FC, StrictMode, useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
@@ -71,6 +72,7 @@ const App: FC = () => {
                   {isLoggedIn() && <Route path="/offices" element={<Offices />} />}
                   {isLoggedIn() && <Route path="/organizations" element={<Organizations />} />}
                   {isLoggedIn() && <Route path="/organizations/:orgId" element={<OrganizationDetails />} />}
+                  {isLoggedIn() && <Route path="/organizations/:orgId/offices" element={<OrgOffices />} />}
                   <Route path="*" element={isLoggedIn() ? <Organizations /> : <Login />} />
                 </Routes>
               </main>

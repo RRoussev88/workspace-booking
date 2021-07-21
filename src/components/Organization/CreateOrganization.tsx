@@ -30,7 +30,7 @@ const CreateOrganization: FC = () => {
       <CreateOrganizationDialog isOpen={isModalOpen} type={selectedType} onCloseModal={handleCloseModal} />
       <div className="flex flex-wrap justify-center -m-1 sm:-m-3">
         <OrganizationCard title="Coworking Space" onClick={() => handleCardClick(OrgType.OPEN)} />
-        <OrganizationCard title="Company" onClick={() => handleCardClick(OrgType.CLOSED)} />
+        <OrganizationCard title="Company" disabled onClick={() => handleCardClick(OrgType.CLOSED)} />
       </div>
     </section>
   );

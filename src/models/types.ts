@@ -2,8 +2,6 @@ export type NavItem = { name: string; url: string; isAuthRequired: boolean };
 
 export type Coworker = { id: string; email: string; name?: string; avatar?: string };
 
-export type APIError = { statusCoe: number; message: string };
-
 export enum AppMessageVariant {
   INFO = 'blue',
   WARNING = 'yellow',
