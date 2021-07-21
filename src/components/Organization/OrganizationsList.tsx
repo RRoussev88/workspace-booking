@@ -38,9 +38,16 @@ const OrganizationsList: FC = () => {
       return <AppMessage variant={AppMessageVariant.DANGER} text={error} />;
     }
     return organizations.length ? (
-      organizations.map((org) => <ListItem<Organization> key={org.id} item={org} onDelete={handleDelOrg} />)
+      organizations.map((org) => (
+        <ListItem<Organization>
+          key={org.id}
+          isAuthorized={!!auth.coworker?.coworkerEmail && org.contact.includes(auth.coworker?.coworkerEmail)}
+          item={org}
+          onDelete={handleDelOrg}
+        />
+      ))
     ) : (
-      <AppMessage variant={AppMessageVariant.WARNING} text="No Organizations available" />
+      <AppMessage variant={AppMessageVariant.INFO} text="No Organizations available" />
     );
   };
 

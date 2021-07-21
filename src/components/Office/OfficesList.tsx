@@ -37,7 +37,7 @@ const OfficesList: FC = () => {
     return offices.length ? (
       offices.map((office) => <ListItem<Office> key={office.id} item={office} onDelete={handleDel} />)
     ) : (
-      <AppMessage variant={AppMessageVariant.WARNING} text="No Offices available" />
+      <AppMessage variant={AppMessageVariant.INFO} text="No Offices available" />
     );
   };
 

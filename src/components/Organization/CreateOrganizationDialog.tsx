@@ -19,11 +19,16 @@ const CreateOrganizationDialog: FC<CreateOrganizationDialogProps> = ({ isOpen, t
   const auth = useContext(AuthContext);
   const [orgState, setOrgState] = useState<Partial<Organization>>({});
 
+  const submitDisabled = Object.keys(orgState).filter((key) => !!orgState[key as keyof typeof orgState]).length < 2;
+
   const handleFormChange: ChangeEventHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setOrgState((prevState) => ({ ...prevState, [event.target.name]: event.target.value }));
   };
 
-  const submitDisabled = Object.keys(orgState).filter((key) => !!orgState[key as keyof typeof orgState]).length < 2;
+  const handleCloseModal = (shouldFetch?: boolean) => {
+    setOrgState({});
+    onCloseModal(shouldFetch);
+  };
 
   const handleSubmit = async () => {
     const openOrg: Organization = {
@@ -36,13 +41,12 @@ const CreateOrganizationDialog: FC<CreateOrganizationDialogProps> = ({ isOpen, t
       participants: [],
     };
     await dispatch(createOrganization(openOrg));
-    setOrgState({});
-    onCloseModal(true);
+    handleCloseModal(true);
   };
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" onClose={onCloseModal}>
+      <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" onClose={handleCloseModal}>
         <div className="min-h-screen px-4 text-center">
           <Transition.Child
             as={Fragment}
@@ -106,7 +110,7 @@ const CreateOrganizationDialog: FC<CreateOrganizationDialogProps> = ({ isOpen, t
                 </fieldset>
               </form>
               <div className="mt-4 flex justify-between">
-                <button type="button" className="form__button form__button__cancel" onClick={() => onCloseModal()}>
+                <button type="button" className="form__button form__button__cancel" onClick={() => handleCloseModal()}>
                   Cancel
                 </button>
                 <button

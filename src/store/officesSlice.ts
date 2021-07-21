@@ -1,6 +1,7 @@
 import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit';
 import { LocalStorageKey } from 'models/constants';
 import { Office } from 'models/office';
+import toaster from 'services/toaster';
 import { BaseState, RootState } from 'store';
 
 export interface OfficesSliceState extends BaseState<Office> {
@@ -53,7 +54,10 @@ export const fetchAllOrgOffices = (orgId: string) => async (dispatch: Dispatch) 
   dispatch(setErrorState(null));
   dispatch(setLoadingState(true));
   try {
-    const response = await fetch(`${OFFICE_URL}/${orgId}`, { method: 'GET', headers: getHeaders() });
+    const response = await fetch(`${OFFICE_URL}/org/${orgId}?paramName=organizationId`, {
+      method: 'GET',
+      headers: getHeaders(),
+    });
     if (response.ok) {
       const data: { Items?: Office[] } = await response.json();
       if (data.Items) {
@@ -65,6 +69,25 @@ export const fetchAllOrgOffices = (orgId: string) => async (dispatch: Dispatch) 
     }
   } catch (error) {
     dispatch(setErrorState(error.message || 'Error fetching offices list'));
+  } finally {
+    dispatch(setLoadingState(false));
+  }
+};
+
+export const createOffice = (simpleOffice: Office) => async (dispatch: Dispatch) => {
+  dispatch(setLoadingState(true));
+  try {
+    const response = await fetch(OFFICE_URL, {
+      method: 'PUT',
+      headers: getHeaders(),
+      body: JSON.stringify({ simpleOffice }),
+    });
+    if (!response.ok) {
+      const error = await response.text();
+      throw new Error(error);
+    }
+  } catch (error) {
+    toaster.toastError(error);
   } finally {
     dispatch(setLoadingState(false));
   }

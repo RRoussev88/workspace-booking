@@ -1,25 +1,57 @@
 import { Dialog, Transition } from '@headlessui/react';
+import { AuthContext } from 'authContext';
 import CustomFormInput from 'components/CustomFormInput';
 import CustomTextArea from 'components/CustomTextArea';
 import { Office, OfficeType } from 'models/office';
-import { ChangeEvent, ChangeEventHandler, FC, Fragment, useState } from 'react';
+import { ChangeEvent, ChangeEventHandler, FC, Fragment, useContext, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { createOffice } from 'store/officesSlice';
+import { v4 as uuidv4 } from 'uuid';
 
 interface CreateOfficeDialogProps {
   isOpen: boolean;
-  type: OfficeType | null;
-  onCloseModal: () => void;
+  type: OfficeType;
+  onCloseModal: (shouldFetch?: boolean) => void;
 }
 
 const CreateOfficeDialog: FC<CreateOfficeDialogProps> = ({ isOpen, type, onCloseModal }) => {
+  const dispatch = useDispatch();
+  const auth = useContext(AuthContext);
+  const { orgId } = useParams();
   const [officeState, setOfficeState] = useState<Partial<Office>>({});
+
+  const submitDisabled =
+    Object.keys(officeState).filter((key) => !!officeState[key as keyof typeof officeState]).length < 3;
 
   const handleFormChange: ChangeEventHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setOfficeState((prevState) => ({ ...prevState, [event.target.name]: event.target.value }));
   };
 
+  const handleCloseModal = (shouldFetch?: boolean) => {
+    setOfficeState({});
+    onCloseModal(shouldFetch);
+  };
+
+  const handleSubmit = async () => {
+    const newOffice: Office = {
+      id: uuidv4(),
+      type,
+      organizationId: orgId,
+      name: officeState.name ?? '',
+      address: officeState.address ?? '',
+      description: officeState.description ?? '',
+      contact: auth.coworker?.coworkerEmail ? [auth.coworker.coworkerEmail] : [], // Put current user email
+      capacity: officeState.capacity ?? 0,
+      occupied: 0,
+    };
+    await dispatch(createOffice(newOffice));
+    handleCloseModal(true);
+  };
+
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" onClose={onCloseModal}>
+      <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" onClose={handleCloseModal}>
         <div className="min-h-screen px-4 text-center">
           <Transition.Child
             as={Fragment}
@@ -79,13 +111,29 @@ const CreateOfficeDialog: FC<CreateOfficeDialogProps> = ({ isOpen, type, onClose
                     value={officeState.description ?? ''}
                     onChange={handleFormChange}
                   />
+                  <CustomFormInput
+                    name="capacity"
+                    type="number"
+                    label="Office capacity"
+                    containerClasses="mt-9"
+                    placeholder="Enter Office capacity"
+                    value={officeState.capacity ?? ''}
+                    onChange={handleFormChange}
+                  />
                 </fieldset>
               </form>
               <div className="mt-4 flex justify-between">
-                <button type="button" className="form__button form__button__cancel" onClick={onCloseModal}>
+                <button type="button" className="form__button form__button__cancel" onClick={() => handleCloseModal()}>
                   Cancel
                 </button>
-                <button type="button" className="form__button form__button__success" onClick={() => {}}>
+                <button
+                  type="button"
+                  className={`form__button form__button__success ${
+                    submitDisabled ? 'hover:bg-gray-300 bg-gray-300 cursor-default' : ''
+                  }`}
+                  disabled={submitDisabled}
+                  onClick={handleSubmit}
+                >
                   Create
                 </button>
               </div>

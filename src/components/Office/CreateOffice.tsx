@@ -6,15 +6,18 @@ import { FC, useState } from 'react';
 
 const CreateOffice: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [selectedType, setSelectedType] = useState<OfficeType | null>(null);
+  const [selectedType, setSelectedType] = useState<OfficeType>(OfficeType.SIMPLE);
 
   const handleCardClick = (officeType: OfficeType) => {
     setSelectedType(officeType);
     setIsModalOpen(true);
   };
 
-  const handleCloseModal = () => {
+  const handleCloseModal = (shouldFetch?: boolean) => {
     setIsModalOpen(false);
+    if (shouldFetch) {
+      // dispatch(fetchAllOrganizations())
+    }
   };
 
   return (
