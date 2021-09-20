@@ -6,7 +6,7 @@ export const store = configureStore({ reducer: { organizations, offices } });
 
 export type RootState = ReturnType<typeof store.getState>;
 
-export interface BaseState<T = any> {
+export interface BaseState<T extends object = any> {
   data: T[];
   isLoading: boolean;
   error: string | null;

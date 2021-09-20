@@ -8,7 +8,7 @@ import { AppMessageVariant } from 'models/types';
 import { FC, useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { fetchAllOrgOffices, resetState, selectOfficesState } from 'store/officesSlice';
+import { deleteOffice, fetchAllOrgOffices, resetState, selectOfficesState } from 'store/officesSlice';
 
 const OfficesList: FC = () => {
   const { orgId } = useParams();
@@ -27,7 +27,7 @@ const OfficesList: FC = () => {
   }, [auth.isLoggedIn, dispatch, resetState, fetchAllOrgOffices]);
 
   const handleDel = (officeId: string) => {
-    // dispatch(deleteOrganization(orgId));
+    dispatch(deleteOffice(orgId, officeId));
   };
 
   const renderList = () => {
@@ -35,7 +35,14 @@ const OfficesList: FC = () => {
       return <AppMessage variant={AppMessageVariant.DANGER} text={error} />;
     }
     return offices.length ? (
-      offices.map((office) => <ListItem<Office> key={office.id} item={office} onDelete={handleDel} />)
+      offices.map((office) => (
+        <ListItem<Office>
+          key={office.id}
+          isAuthorized={!!auth.coworker?.coworkerEmail && office.contact.includes(auth.coworker?.coworkerEmail)}
+          item={office}
+          onDelete={handleDel}
+        />
+      ))
     ) : (
       <AppMessage variant={AppMessageVariant.INFO} text="No Offices available" />
     );

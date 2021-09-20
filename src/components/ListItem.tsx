@@ -4,15 +4,17 @@ import { Link } from 'react-router-dom';
 
 type BaseItem = { id: string; name: string };
 
+type ListItemComponent = <ItemType extends BaseItem>(
+  props: ListItemProps<BaseItem>,
+) => ReactElement<ListItemProps<ItemType>>;
+
 interface ListItemProps<T extends BaseItem> {
   item: T;
   isAuthorized?: boolean;
-  onDelete: (orgId: string) => void;
+  onDelete: (id: string) => void;
 }
 
-const ListItem: <ItemType extends BaseItem>(
-  props: ListItemProps<BaseItem>,
-) => ReactElement<ListItemProps<ItemType>> = ({ item, isAuthorized, onDelete }) => {
+const ListItem: ListItemComponent = ({ item, isAuthorized, onDelete }) => {
   const onDeleteOrg = () => {
     onDelete(item.id);
   };

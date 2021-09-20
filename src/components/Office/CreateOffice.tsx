@@ -3,8 +3,13 @@ import OfficeCard from 'components/Office/OfficeCard';
 import SectionHeading from 'components/SectionHeading';
 import { OfficeType } from 'models/office';
 import { FC, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { fetchAllOrgOffices } from 'store/officesSlice';
 
 const CreateOffice: FC = () => {
+  const { orgId } = useParams();
+  const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedType, setSelectedType] = useState<OfficeType>(OfficeType.SIMPLE);
 
@@ -16,7 +21,7 @@ const CreateOffice: FC = () => {
   const handleCloseModal = (shouldFetch?: boolean) => {
     setIsModalOpen(false);
     if (shouldFetch) {
-      // dispatch(fetchAllOrganizations())
+      dispatch(fetchAllOrgOffices(orgId))
     }
   };
 

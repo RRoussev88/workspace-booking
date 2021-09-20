@@ -6,11 +6,11 @@ import { AuthToken, CoworkerPayload } from 'models/context';
 import Login from 'pages/Login';
 import Offices from 'pages/Offices';
 import OrganizationDetails from 'pages/OrganizationDetails';
-import OrgOffices from 'pages/OrgOffices';
 import Organizations from 'pages/Organizations';
+import OrgOffices from 'pages/OrgOffices';
 import { FC, StrictMode, useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { store } from 'store';
@@ -67,13 +67,12 @@ const App: FC = () => {
               <NavBar logo={logo} />
               <main className="max-w-7xl w-full sm:w-8/12 mx-auto p-4 sm:p-6 lg:p-8">
                 <Routes>
-                  <Route path="/" element={isLoggedIn() ? <Organizations /> : <Login />} />
                   {!isLoggedIn() && <Route path="/login" element={<Login />} />}
                   {isLoggedIn() && <Route path="/offices" element={<Offices />} />}
                   {isLoggedIn() && <Route path="/organizations" element={<Organizations />} />}
                   {isLoggedIn() && <Route path="/organizations/:orgId" element={<OrganizationDetails />} />}
                   {isLoggedIn() && <Route path="/organizations/:orgId/offices" element={<OrgOffices />} />}
-                  <Route path="*" element={isLoggedIn() ? <Organizations /> : <Login />} />
+                  <Route path="*" element={<Navigate to={isLoggedIn() ? '/organizations' : '/login'} />} />
                 </Routes>
               </main>
               <Footer />

@@ -67,7 +67,7 @@ export const fetchAllOrganizations = () => async (dispatch: Dispatch) => {
       throw new Error(error);
     }
   } catch (error) {
-    dispatch(setErrorState(error.message || 'Error fetching organizations list'));
+    dispatch(setErrorState((error as Error)?.message || 'Error fetching organizations list'));
   } finally {
     dispatch(setLoadingState(false));
   }
@@ -89,7 +89,7 @@ export const fetchOrganization = (orgId: string) => async (dispatch: Dispatch) =
       throw new Error(error);
     }
   } catch (error) {
-    dispatch(setErrorState(error.message || 'Error fetching organization'));
+    dispatch(setErrorState((error as Error)?.message || 'Error fetching organization'));
   } finally {
     dispatch(setLoadingState(false));
   }
@@ -108,7 +108,7 @@ export const createOrganization = (openOrg: Organization) => async (dispatch: Di
       throw new Error(error);
     }
   } catch (error) {
-    toaster.toastError(error);
+    toaster.toastError((error as Error)?.message || 'Error creating organization');
   } finally {
     dispatch(setLoadingState(false));
   }
@@ -127,7 +127,7 @@ export const updateOrganization = (openOrg: Organization) => async (dispatch: Di
       throw new Error(error);
     }
   } catch (error) {
-    toaster.toastError(error);
+    toaster.toastError((error as Error)?.message || 'Error updating organization');
   } finally {
     dispatch(setLoadingState(false));
   }
@@ -146,7 +146,7 @@ export const deleteOrganization = (orgId: string) => async (dispatch: Dispatch) 
     }
     fetchAllOrganizations()(dispatch);
   } catch (error) {
-    toaster.toastError(error);
+    toaster.toastError((error as Error)?.message || 'Error deleting organization');
     dispatch(setLoadingState(false));
   }
 };

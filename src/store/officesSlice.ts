@@ -68,7 +68,7 @@ export const fetchAllOrgOffices = (orgId: string) => async (dispatch: Dispatch) 
       throw new Error(error);
     }
   } catch (error) {
-    dispatch(setErrorState(error.message || 'Error fetching offices list'));
+    dispatch(setErrorState((error as Error)?.message || 'Error fetching offices list'));
   } finally {
     dispatch(setLoadingState(false));
   }
@@ -87,7 +87,26 @@ export const createOffice = (simpleOffice: Office) => async (dispatch: Dispatch)
       throw new Error(error);
     }
   } catch (error) {
-    toaster.toastError(error);
+    toaster.toastError((error as Error)?.message || 'Error creating office');
+  } finally {
+    dispatch(setLoadingState(false));
+  }
+};
+
+export const deleteOffice = (orgId: string, officeId: string) => async (dispatch: Dispatch) => {
+  dispatch(setLoadingState(true));
+  try {
+    const response = await fetch(`${OFFICE_URL}/${officeId}/org/${orgId}`, {
+      method: 'DELETE',
+      headers: getHeaders(),
+    });
+    if (!response.ok) {
+      const error = await response.text();
+      throw new Error(error);
+    }
+    fetchAllOrgOffices(orgId)(dispatch);
+  } catch (error) {
+    toaster.toastError((error as Error)?.message || 'Error deleting office');
   } finally {
     dispatch(setLoadingState(false));
   }
