@@ -4,33 +4,29 @@ import CustomFormInput from 'components/CustomFormInput';
 import CustomTextArea from 'components/CustomTextArea';
 import { Office, OfficeType } from 'models/office';
 import { ChangeEvent, ChangeEventHandler, FC, Fragment, useContext, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { createOffice } from 'store/officesSlice';
 import { v4 as uuidv4 } from 'uuid';
 
 interface CreateOfficeDialogProps {
   isOpen: boolean;
   type: OfficeType;
-  onCloseModal: (shouldFetch?: boolean) => void;
+  onCloseModal: (newOffice?: Office) => void;
 }
 
 const CreateOfficeDialog: FC<CreateOfficeDialogProps> = ({ isOpen, type, onCloseModal }) => {
-  const dispatch = useDispatch();
   const auth = useContext(AuthContext);
   const { orgId } = useParams();
   const [officeState, setOfficeState] = useState<Partial<Office>>({});
 
-  const submitDisabled =
-    Object.keys(officeState).filter((key) => !!officeState[key as keyof typeof officeState]).length < 3;
+  const submitDisabled: boolean = !officeState.name || !officeState.address || !officeState.capacity;
 
   const handleFormChange: ChangeEventHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setOfficeState((prevState) => ({ ...prevState, [event.target.name]: event.target.value }));
   };
 
-  const handleCloseModal = (shouldFetch?: boolean) => {
+  const handleCloseModal = (newOffice?: Office) => {
     setOfficeState({});
-    onCloseModal(shouldFetch);
+    onCloseModal(newOffice);
   };
 
   const handleSubmit = async () => {
@@ -45,13 +41,12 @@ const CreateOfficeDialog: FC<CreateOfficeDialogProps> = ({ isOpen, type, onClose
       capacity: officeState.capacity ?? 0,
       occupied: 0,
     };
-    await dispatch(createOffice(newOffice));
-    handleCloseModal(true);
+    handleCloseModal(newOffice);
   };
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" onClose={handleCloseModal}>
+      <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" onClose={() => handleCloseModal()}>
         <div className="min-h-screen px-4 text-center">
           <Transition.Child
             as={Fragment}
@@ -94,6 +89,7 @@ const CreateOfficeDialog: FC<CreateOfficeDialogProps> = ({ isOpen, type, onClose
                     placeholder="Enter Office Name"
                     value={officeState.name ?? ''}
                     onChange={handleFormChange}
+                    required
                   />
                   <CustomFormInput
                     name="address"
@@ -102,6 +98,7 @@ const CreateOfficeDialog: FC<CreateOfficeDialogProps> = ({ isOpen, type, onClose
                     placeholder="Enter Office address"
                     value={officeState.address ?? ''}
                     onChange={handleFormChange}
+                    required
                   />
                   <CustomTextArea
                     name="description"
@@ -119,6 +116,7 @@ const CreateOfficeDialog: FC<CreateOfficeDialogProps> = ({ isOpen, type, onClose
                     placeholder="Enter Office capacity"
                     value={officeState.capacity ?? ''}
                     onChange={handleFormChange}
+                    required
                   />
                 </fieldset>
               </form>

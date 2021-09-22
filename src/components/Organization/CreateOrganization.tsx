@@ -1,10 +1,10 @@
 import CreateOrganizationDialog from 'components/Organization/CreateOrganizationDialog';
 import OrganizationCard from 'components/Organization/OrganizationCard';
 import SectionHeading from 'components/SectionHeading';
-import { OrgType } from 'models/organization';
+import { Organization, OrgType } from 'models/organization';
 import { FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { fetchAllOrganizations } from 'store/organizationsSlice';
+import { createOrganization, fetchAllOrganizations } from 'store/organizationsSlice';
 
 const CreateOrganization: FC = () => {
   const dispatch = useDispatch();
@@ -16,9 +16,10 @@ const CreateOrganization: FC = () => {
     setIsModalOpen(true);
   };
 
-  const handleCloseModal = (shouldFetch?: boolean) => {
+  const handleCloseModal = async (newOrg?: Organization) => {
     setIsModalOpen(false);
-    if (shouldFetch) {
+    if (newOrg) {
+      await dispatch(createOrganization(newOrg));
       dispatch(fetchAllOrganizations());
     }
   };

@@ -29,8 +29,9 @@ const OrganizationsList: FC = () => {
     };
   }, [auth.isLoggedIn, dispatch, resetState, fetchAllOrganizations]);
 
-  const handleDelOrg = (orgId: string) => {
-    dispatch(deleteOrganization(orgId));
+  const handleDelOrg = async (orgId: string) => {
+    await dispatch(deleteOrganization(orgId));
+    dispatch(fetchAllOrganizations());
   };
 
   const renderList = () => {

@@ -33,12 +33,19 @@ const Login: FC<LoginProps> = () => {
       .then<{ token?: AuthToken; payload?: CoworkerPayload; errors?: string[] }>((raw) => raw.json())
       .then((data) => {
         if (data.token && data.payload) {
-          auth.onLogin({ ...data.token, ExpiresIn: new Date().valueOf() + data.token.ExpiresIn * 1000 }, data.payload);
           setUsername('');
           setPassword('');
-          navigation('/organizations', { replace: true });
-        } else if (data.errors?.length) {
+        }
+        if (data.errors?.length) {
           setHasError(true);
+        }
+        return data;
+      })
+      // Call to `auth.onLogin` is extracted in separate promise in order to avoid unmounted component state change
+      .then((data) => {
+        if (data.token && data.payload) {
+          auth.onLogin({ ...data.token, ExpiresIn: new Date().valueOf() + data.token.ExpiresIn * 1000 }, data.payload);
+          navigation('/organizations', { replace: true });
         }
       });
   };

@@ -4,30 +4,27 @@ import CustomFormInput from 'components/CustomFormInput';
 import CustomTextArea from 'components/CustomTextArea';
 import { Organization, OrgType } from 'models/organization';
 import { ChangeEvent, ChangeEventHandler, FC, Fragment, useContext, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { createOrganization } from 'store/organizationsSlice';
 import { v4 as uuidv4 } from 'uuid';
 
 interface CreateOrganizationDialogProps {
   isOpen: boolean;
   type: OrgType;
-  onCloseModal: (shouldFetch?: boolean) => void;
+  onCloseModal: (newOrg?: Organization) => void;
 }
 
 const CreateOrganizationDialog: FC<CreateOrganizationDialogProps> = ({ isOpen, type, onCloseModal }) => {
-  const dispatch = useDispatch();
   const auth = useContext(AuthContext);
   const [orgState, setOrgState] = useState<Partial<Organization>>({});
 
-  const submitDisabled = Object.keys(orgState).filter((key) => !!orgState[key as keyof typeof orgState]).length < 2;
+  const submitDisabled: boolean = !orgState.name;
 
   const handleFormChange: ChangeEventHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setOrgState((prevState) => ({ ...prevState, [event.target.name]: event.target.value }));
   };
 
-  const handleCloseModal = (shouldFetch?: boolean) => {
+  const handleCloseModal = (newOrg?: Organization) => {
     setOrgState({});
-    onCloseModal(shouldFetch);
+    onCloseModal(newOrg);
   };
 
   const handleSubmit = async () => {
@@ -40,13 +37,12 @@ const CreateOrganizationDialog: FC<CreateOrganizationDialogProps> = ({ isOpen, t
       offices: [],
       participants: [],
     };
-    await dispatch(createOrganization(openOrg));
-    handleCloseModal(true);
+    handleCloseModal(openOrg);
   };
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" onClose={handleCloseModal}>
+      <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" onClose={() => handleCloseModal()}>
         <div className="min-h-screen px-4 text-center">
           <Transition.Child
             as={Fragment}
@@ -89,6 +85,7 @@ const CreateOrganizationDialog: FC<CreateOrganizationDialogProps> = ({ isOpen, t
                     placeholder="Enter Organization Name"
                     value={orgState.name ?? ''}
                     onChange={handleFormChange}
+                    required
                   />
                   <CustomTextArea
                     name="description"

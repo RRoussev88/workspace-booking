@@ -6,6 +6,7 @@ interface CustomFormInputProps {
   containerClasses?: string;
   placeholder?: string;
   disabled?: boolean;
+  required?: boolean;
   label?: string;
   type?: 'text' | 'number' | 'password';
   id?: string;
@@ -18,13 +19,17 @@ const CustomFormInput: FC<CustomFormInputProps> = ({
   containerClasses,
   placeholder,
   disabled,
+  required,
   label,
   type = 'text',
   id,
   onChange,
 }) => (
   <p className={containerClasses}>
-    <label className="text-lg" htmlFor={id ?? name}>{label ?? name}</label>
+    <label className="text-lg" htmlFor={id ?? name}>
+      {required && <span className="text-red-500 font-bold">* </span>}
+      {label ?? name}
+    </label>
     <input
       className="block my-1 px-3 w-full h-8 rounded-2xl shadow focus:outline-none focus:ring"
       type={type}

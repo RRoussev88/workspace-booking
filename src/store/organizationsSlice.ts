@@ -144,9 +144,9 @@ export const deleteOrganization = (orgId: string) => async (dispatch: Dispatch) 
       const error = await result.text();
       throw new Error(error);
     }
-    fetchAllOrganizations()(dispatch);
   } catch (error) {
     toaster.toastError((error as Error)?.message || 'Error deleting organization');
+  } finally {
     dispatch(setLoadingState(false));
   }
 };

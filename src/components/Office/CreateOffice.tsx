@@ -1,11 +1,11 @@
 import CreateOfficeDialog from 'components/Office/CreateOfficeDialog';
 import OfficeCard from 'components/Office/OfficeCard';
 import SectionHeading from 'components/SectionHeading';
-import { OfficeType } from 'models/office';
+import { Office, OfficeType } from 'models/office';
 import { FC, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { fetchAllOrgOffices } from 'store/officesSlice';
+import { createOffice, fetchAllOrgOffices } from 'store/officesSlice';
 
 const CreateOffice: FC = () => {
   const { orgId } = useParams();
@@ -18,10 +18,11 @@ const CreateOffice: FC = () => {
     setIsModalOpen(true);
   };
 
-  const handleCloseModal = (shouldFetch?: boolean) => {
+  const handleCloseModal = async (newOffice?: Office) => {
     setIsModalOpen(false);
-    if (shouldFetch) {
-      dispatch(fetchAllOrgOffices(orgId))
+    if (newOffice) {
+      await dispatch(createOffice(newOffice));
+      dispatch(fetchAllOrgOffices(orgId));
     }
   };
 

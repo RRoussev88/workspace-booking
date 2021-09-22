@@ -93,18 +93,14 @@ export const createOffice = (simpleOffice: Office) => async (dispatch: Dispatch)
   }
 };
 
-export const deleteOffice = (orgId: string, officeId: string) => async (dispatch: Dispatch) => {
+export const deleteOffice = (officeId: string) => async (dispatch: Dispatch) => {
   dispatch(setLoadingState(true));
   try {
-    const response = await fetch(`${OFFICE_URL}/${officeId}/org/${orgId}`, {
-      method: 'DELETE',
-      headers: getHeaders(),
-    });
+    const response = await fetch(`${OFFICE_URL}/${officeId}`, { method: 'DELETE', headers: getHeaders() });
     if (!response.ok) {
       const error = await response.text();
       throw new Error(error);
     }
-    fetchAllOrgOffices(orgId)(dispatch);
   } catch (error) {
     toaster.toastError((error as Error)?.message || 'Error deleting office');
   } finally {

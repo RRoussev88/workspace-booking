@@ -26,8 +26,9 @@ const OfficesList: FC = () => {
     };
   }, [auth.isLoggedIn, dispatch, resetState, fetchAllOrgOffices]);
 
-  const handleDel = (officeId: string) => {
-    dispatch(deleteOffice(orgId, officeId));
+  const handleDel = async (officeId: string) => {
+    await dispatch(deleteOffice(officeId));
+    dispatch(fetchAllOrgOffices(orgId));
   };
 
   const renderList = () => {
