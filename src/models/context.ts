@@ -18,8 +18,8 @@ export type CoworkerPayload = Partial<{
 
 export type AuthContextType = {
   token: AuthToken | null;
-  isLoggedIn: () => boolean;
+  isLoggedIn: boolean;
   onLogin: (onLoginToken: AuthToken | null, onLoginCoworker: CoworkerPayload | null) => void;
-  logout: () => void;
+  onLogout: () => void;
   coworker: CoworkerPayload | null;
 };

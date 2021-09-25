@@ -1,23 +1,43 @@
 import { Transition } from '@headlessui/react';
 import { AuthContext } from 'authContext';
 import SvgIcon from 'components/SvgIcon';
+import { LocalStorageKey } from 'models/constants';
+import { AuthToken } from 'models/context';
 import { NavItem } from 'models/types';
-import { FC, useContext, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { FC, useCallback, useContext, useEffect, useState } from 'react';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { navigationItems } from 'utils';
 
 type NavBarProps = { logo: string };
 
 const NavBar: FC<NavBarProps> = ({ logo }) => {
+  const location = useLocation();
   const navigation = useNavigate();
   const auth = useContext(AuthContext);
-  const isAuthorized = auth.isLoggedIn();
+  const isAuthorized = auth.isLoggedIn;
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const handleLogout = () => {
-    auth.logout();
+  const handleLogout = useCallback(() => {
+    auth.onLogout();
     navigation('/login', { replace: true });
-  };
+  }, [auth, navigation]);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem(LocalStorageKey.AUTH);
+    if (storedToken && location.pathname) {
+      try {
+        const { ExpiresIn }: AuthToken = JSON.parse(storedToken);
+        if (ExpiresIn < new Date().valueOf()) {
+          handleLogout();
+        }
+      } catch {
+        // In case invalid JSON string is stored in localStorage
+        handleLogout();
+      }
+    } else {
+      handleLogout();
+    }
+  }, [location.pathname, handleLogout]);
 
   return (
     <nav className="bg-gray-800">

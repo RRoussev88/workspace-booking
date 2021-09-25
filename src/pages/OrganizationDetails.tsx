@@ -29,7 +29,7 @@ const OrganizationDetails: FC = () => {
     return () => {
       dispatch(resetState());
     };
-  }, [orgId]);
+  }, [dispatch, orgId]);
 
   useEffect(() => {
     setOrgState(activeOrganization);

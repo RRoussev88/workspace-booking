@@ -20,14 +20,14 @@ const OrganizationsList: FC = () => {
   const { data: organizations, error, isLoading } = useSelector(selectOrganizationsState);
 
   useEffect(() => {
-    if (auth.isLoggedIn()) {
+    if (auth.isLoggedIn) {
       dispatch(fetchAllOrganizations());
     }
 
     return () => {
       dispatch(resetState());
     };
-  }, [auth.isLoggedIn, dispatch, resetState, fetchAllOrganizations]);
+  }, [auth.isLoggedIn, dispatch]);
 
   const handleDelOrg = async (orgId: string) => {
     await dispatch(deleteOrganization(orgId));

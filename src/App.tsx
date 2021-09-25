@@ -19,6 +19,21 @@ import { AuthContext } from './authContext';
 const App: FC = () => {
   const [token, setToken] = useState<AuthToken | null>(null);
   const [coworker, setCoworker] = useState<CoworkerPayload | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(!!token && new Date().valueOf() < token.ExpiresIn);
+
+  const onLogin = (onLoginToken: AuthToken | null, onLoginCoworker: CoworkerPayload | null) => {
+    setToken(onLoginToken);
+    setCoworker(onLoginCoworker);
+    localStorage.setItem(LocalStorageKey.AUTH, JSON.stringify(onLoginToken));
+    localStorage.setItem(LocalStorageKey.COWORKER, JSON.stringify(onLoginCoworker));
+  };
+
+  const onLogout = () => {
+    setToken(null);
+    setCoworker(null);
+    localStorage.removeItem(LocalStorageKey.AUTH);
+    localStorage.removeItem(LocalStorageKey.COWORKER);
+  };
 
   useEffect(() => {
     const storedToken = localStorage.getItem(LocalStorageKey.AUTH);
@@ -42,37 +57,37 @@ const App: FC = () => {
     }
   }, []);
 
-  const onLogin = (onLoginToken: AuthToken | null, onLoginCoworker: CoworkerPayload | null) => {
-    setToken(onLoginToken);
-    setCoworker(onLoginCoworker);
-    localStorage.setItem(LocalStorageKey.AUTH, JSON.stringify(onLoginToken));
-    localStorage.setItem(LocalStorageKey.COWORKER, JSON.stringify(onLoginCoworker));
-  };
+  useEffect(() => {
+    setIsLoggedIn(!!token && new Date().valueOf() < token.ExpiresIn);
 
-  const logout = () => {
-    setToken(null);
-    setCoworker(null);
-    localStorage.removeItem(LocalStorageKey.AUTH);
-    localStorage.removeItem(LocalStorageKey.COWORKER);
-  };
+    const timeout = token
+      ? setTimeout(() => {
+          setIsLoggedIn(!!token && new Date().valueOf() < token.ExpiresIn);
+        }, new Date().valueOf() - token.ExpiresIn)
+      : null;
 
-  const isLoggedIn = () => !!token && new Date().valueOf() < token.ExpiresIn;
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+    };
+  }, [token]);
 
   return (
     <StrictMode>
-      <AuthContext.Provider value={{ token, isLoggedIn, onLogin, logout, coworker }}>
+      <AuthContext.Provider value={{ token, isLoggedIn, onLogin, onLogout, coworker }}>
         <Provider store={store}>
           <BrowserRouter>
             <div className="min-h-screen flex flex-col">
               <NavBar logo={logo} />
               <main className="max-w-7xl w-full sm:w-8/12 mx-auto p-4 sm:p-6 lg:p-8">
                 <Routes>
-                  {!isLoggedIn() && <Route path="/login" element={<Login />} />}
-                  {isLoggedIn() && <Route path="/offices" element={<Offices />} />}
-                  {isLoggedIn() && <Route path="/organizations" element={<Organizations />} />}
-                  {isLoggedIn() && <Route path="/organizations/:orgId" element={<OrganizationDetails />} />}
-                  {isLoggedIn() && <Route path="/organizations/:orgId/offices" element={<OrgOffices />} />}
-                  <Route path="*" element={<Navigate to={isLoggedIn() ? '/organizations' : '/login'} />} />
+                  {!isLoggedIn && <Route path="/login" element={<Login />} />}
+                  {isLoggedIn && <Route path="/offices" element={<Offices />} />}
+                  {isLoggedIn && <Route path="/organizations" element={<Organizations />} />}
+                  {isLoggedIn && <Route path="/organizations/:orgId" element={<OrganizationDetails />} />}
+                  {isLoggedIn && <Route path="/organizations/:orgId/offices" element={<OrgOffices />} />}
+                  <Route path="*" element={<Navigate to={isLoggedIn ? '/organizations' : '/login'} />} />
                 </Routes>
               </main>
               <Footer />

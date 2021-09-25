@@ -3,8 +3,8 @@ import { AuthContextType } from 'models/context';
 
 export const AuthContext = createContext<AuthContextType>({
   token: null,
-  isLoggedIn: () => false,
+  isLoggedIn: false,
   onLogin: () => {},
-  logout: () => {},
+  onLogout: () => {},
   coworker: null,
 });

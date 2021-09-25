@@ -17,14 +17,14 @@ const OfficesList: FC = () => {
   const { data: offices, error, isLoading } = useSelector(selectOfficesState);
 
   useEffect(() => {
-    if (auth.isLoggedIn()) {
+    if (auth.isLoggedIn) {
       dispatch(fetchAllOrgOffices(orgId));
     }
 
     return () => {
       dispatch(resetState());
     };
-  }, [auth.isLoggedIn, dispatch, resetState, fetchAllOrgOffices]);
+  }, [auth.isLoggedIn, dispatch, orgId]);
 
   const handleDel = async (officeId: string) => {
     await dispatch(deleteOffice(officeId));
