@@ -1,11 +1,7 @@
 import { AuthContext } from 'authContext';
-import AppMessage from 'components/AppMessage';
-import ListItem from 'components/ListItem';
-import Loader from 'components/Loader';
-import SectionHeading from 'components/SectionHeading';
-import { Organization } from 'models/organization';
-import { AppMessageVariant } from 'models/types';
-import { FC, useContext, useEffect } from 'react';
+import { AppMessage, ConfirmDialog, ListItem, Loader, SectionHeading } from 'components';
+import { AppMessageVariant, Organization } from 'models';
+import { FC, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   deleteOrganization,
@@ -18,6 +14,7 @@ const OrganizationsList: FC = () => {
   const auth = useContext(AuthContext);
   const dispatch = useDispatch();
   const { data: organizations, error, isLoading } = useSelector(selectOrganizationsState);
+  const [deleteOrgId, setDeleteOrgId] = useState<string | null>(null);
 
   useEffect(() => {
     if (auth.isLoggedIn) {
@@ -31,6 +28,7 @@ const OrganizationsList: FC = () => {
 
   const handleDelOrg = async (orgId: string) => {
     await dispatch(deleteOrganization(orgId));
+    setDeleteOrgId(null);
     dispatch(fetchAllOrganizations());
   };
 
@@ -44,7 +42,7 @@ const OrganizationsList: FC = () => {
           key={org.id}
           isAuthorized={!!auth.coworker?.coworkerEmail && org.contact.includes(auth.coworker?.coworkerEmail)}
           item={org}
-          onDelete={handleDelOrg}
+          onDelete={setDeleteOrgId}
         />
       ))
     ) : (
@@ -54,6 +52,13 @@ const OrganizationsList: FC = () => {
 
   return (
     <section className="section__layout">
+      <ConfirmDialog
+        isOpen={!!deleteOrgId}
+        title="Confirm Deletion"
+        text="Are you sure deleting that organization?"
+        onCancel={() => setDeleteOrgId(null)}
+        onConfirm={() => deleteOrgId && handleDelOrg(deleteOrgId)}
+      />
       <SectionHeading text="Organizations List" />
       <hr className="divider" />
       <div className="flex flex-col justify-center overflow-hidden">{isLoading ? <Loader /> : renderList()}</div>

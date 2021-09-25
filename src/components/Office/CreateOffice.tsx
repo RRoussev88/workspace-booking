@@ -1,10 +1,9 @@
-import CreateOfficeDialog from 'components/Office/CreateOfficeDialog';
-import OfficeCard from 'components/Office/OfficeCard';
-import SectionHeading from 'components/SectionHeading';
+import { SectionHeading } from 'components';
+import { CreateOfficeDialog, OfficeCard } from 'components/Office';
 import { Office, OfficeType } from 'models/office';
 import { FC, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { createOffice, fetchAllOrgOffices } from 'store/officesSlice';
 
 const CreateOffice: FC = () => {

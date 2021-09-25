@@ -1,9 +1,6 @@
-import { FC, ReactElement } from 'react';
+import { FC, ReactChild } from 'react';
 
-type SvgIconProps = {
-  // Type that better!
-  children: ReactElement<SVGPathElement> | ReactElement<SVGPathElement>[];
-};
+type SvgIconProps = { children: ReactChild | ReactChild[] };
 
 const SvgIcon: FC<SvgIconProps> = ({ children }) => (
   <svg

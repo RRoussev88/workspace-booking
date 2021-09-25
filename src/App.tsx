@@ -1,13 +1,7 @@
 import logo from 'assets/logo.svg';
-import Footer from 'components/Footer';
-import NavBar from 'components/NavBar';
-import { LocalStorageKey } from 'models/constants';
-import { AuthToken, CoworkerPayload } from 'models/context';
-import Login from 'pages/Login';
-import Offices from 'pages/Offices';
-import OrganizationDetails from 'pages/OrganizationDetails';
-import Organizations from 'pages/Organizations';
-import OrgOffices from 'pages/OrgOffices';
+import { Footer, NavBar } from 'components';
+import { AuthToken, CoworkerPayload, LocalStorageKey } from 'models';
+import { Login, Offices, OrganizationDetails, Organizations, OrgOffices } from 'pages';
 import { FC, StrictMode, useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';

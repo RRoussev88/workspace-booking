@@ -1,9 +1,7 @@
 import { Transition } from '@headlessui/react';
 import { AuthContext } from 'authContext';
-import SvgIcon from 'components/SvgIcon';
-import { LocalStorageKey } from 'models/constants';
-import { AuthToken } from 'models/context';
-import { NavItem } from 'models/types';
+import { SvgIcon } from 'components';
+import { AuthToken, LocalStorageKey, NavItem } from 'models';
 import { FC, useCallback, useContext, useEffect, useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { navigationItems } from 'utils';
@@ -35,9 +33,9 @@ const NavBar: FC<NavBarProps> = ({ logo }) => {
         handleLogout();
       }
     } else {
-      handleLogout();
+      navigation('/login', { replace: true });
     }
-  }, [location.pathname, handleLogout]);
+  }, [location.pathname, handleLogout, navigation]);
 
   return (
     <nav className="bg-gray-800">

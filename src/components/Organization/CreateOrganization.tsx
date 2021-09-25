@@ -1,7 +1,6 @@
-import CreateOrganizationDialog from 'components/Organization/CreateOrganizationDialog';
-import OrganizationCard from 'components/Organization/OrganizationCard';
-import SectionHeading from 'components/SectionHeading';
-import { Organization, OrgType } from 'models/organization';
+import { SectionHeading } from 'components';
+import { CreateOrganizationDialog, OrganizationCard } from 'components/Organization';
+import { Organization, OrgType } from 'models';
 import { FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createOrganization, fetchAllOrganizations } from 'store/organizationsSlice';

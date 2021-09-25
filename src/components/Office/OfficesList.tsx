@@ -1,11 +1,7 @@
 import { AuthContext } from 'authContext';
-import AppMessage from 'components/AppMessage';
-import ListItem from 'components/ListItem';
-import Loader from 'components/Loader';
-import SectionHeading from 'components/SectionHeading';
-import { Office } from 'models/office';
-import { AppMessageVariant } from 'models/types';
-import { FC, useContext, useEffect } from 'react';
+import { AppMessage, ConfirmDialog, ListItem, Loader, SectionHeading } from 'components';
+import { AppMessageVariant, Office } from 'models';
+import { FC, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { deleteOffice, fetchAllOrgOffices, resetState, selectOfficesState } from 'store/officesSlice';
@@ -15,6 +11,7 @@ const OfficesList: FC = () => {
   const auth = useContext(AuthContext);
   const dispatch = useDispatch();
   const { data: offices, error, isLoading } = useSelector(selectOfficesState);
+  const [deleteOfficeId, setDeleteOfficeId] = useState<string | null>(null);
 
   useEffect(() => {
     if (auth.isLoggedIn) {
@@ -28,6 +25,7 @@ const OfficesList: FC = () => {
 
   const handleDel = async (officeId: string) => {
     await dispatch(deleteOffice(officeId));
+    setDeleteOfficeId(null);
     dispatch(fetchAllOrgOffices(orgId));
   };
 
@@ -41,7 +39,7 @@ const OfficesList: FC = () => {
           key={office.id}
           isAuthorized={!!auth.coworker?.coworkerEmail && office.contact.includes(auth.coworker?.coworkerEmail)}
           item={office}
-          onDelete={handleDel}
+          onDelete={setDeleteOfficeId}
         />
       ))
     ) : (
@@ -51,6 +49,13 @@ const OfficesList: FC = () => {
 
   return (
     <section className="section__layout">
+      <ConfirmDialog
+        isOpen={!!deleteOfficeId}
+        title="Confirm Deletion"
+        text="Are you sure deleting that office?"
+        onCancel={() => setDeleteOfficeId(null)}
+        onConfirm={() => deleteOfficeId && handleDel(deleteOfficeId)}
+      />
       <SectionHeading text="Offices List" />
       <hr className="divider" />
       <div className="flex flex-col justify-center overflow-hidden">{isLoading ? <Loader /> : renderList()}</div>

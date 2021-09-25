@@ -1,11 +1,6 @@
 import { AuthContext } from 'authContext';
-import AppMessage from 'components/AppMessage';
-import CustomFormInput from 'components/CustomFormInput';
-import CustomTextArea from 'components/CustomTextArea';
-import Loader from 'components/Loader';
-import SectionHeading from 'components/SectionHeading';
-import { Organization, OrgType } from 'models/organization';
-import { AppMessageVariant } from 'models/types';
+import { AppMessage, CustomFormInput, CustomTextArea, Loader, SectionHeading } from 'components';
+import { AppMessageVariant, Organization, OrgType } from 'models';
 import { ChangeEvent, ChangeEventHandler, FC, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';

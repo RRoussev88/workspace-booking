@@ -1,7 +1,6 @@
 import { AuthContext } from 'authContext';
-import CustomFormInput from 'components/CustomFormInput';
-import SvgIcon from 'components/SvgIcon';
-import { AuthToken, CoworkerPayload } from 'models/context';
+import { CustomFormInput, SvgIcon } from 'components';
+import { AuthToken, CoworkerPayload } from 'models';
 import { ChangeEvent, ChangeEventHandler, FC, MouseEvent, MouseEventHandler, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 

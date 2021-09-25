@@ -1,5 +1,4 @@
-import CreateOrganization from 'components/Organization/CreateOrganization';
-import OrganizationsList from 'components/Organization/OrganizationsList';
+import { CreateOrganization, OrganizationsList } from 'components/Organization';
 import { FC } from 'react';
 
 const Organizations: FC = () => (

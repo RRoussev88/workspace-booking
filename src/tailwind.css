@@ -31,6 +31,14 @@
     @apply hover:bg-gray-500 bg-gray-400;
   }
 
+  .form__button__warning {
+    @apply hover:bg-yellow-500 bg-yellow-400;
+  }
+
+  .form__button__danger {
+    @apply hover:bg-red-500 bg-red-400;
+  }
+
   .action-button {
     @apply rounded-md shadow flex justify-center items-center h-10 w-12 border border-gray-200 text-gray-300;
   }

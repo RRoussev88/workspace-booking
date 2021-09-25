@@ -1,4 +1,4 @@
-import OfficesList from 'components/Office/OfficesList';
+import { OfficesList } from 'components/Office';
 import { FC } from 'react';
 
 const Offices: FC = () => <OfficesList />;
