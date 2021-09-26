@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { AppMessageVariant } from 'models';
+import { AppMessageVariant } from '../models';
 
 interface AppMessageProps {
   text: string;

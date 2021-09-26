@@ -1,10 +1,10 @@
 import { Dialog } from '@headlessui/react';
-import { AuthContext } from 'authContext';
-import { BaseModalDialog, CustomFormInput, CustomTextArea } from 'components';
-import { Office, OfficeType } from 'models/office';
 import { ChangeEvent, ChangeEventHandler, FC, useContext, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import { BaseModalDialog, CustomFormInput, CustomTextArea } from '..';
+import { AuthContext } from '../../authContext';
+import { Office, OfficeType } from '../../models';
 
 interface CreateOfficeDialogProps {
   isOpen: boolean;

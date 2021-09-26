@@ -1,9 +1,9 @@
-import { SectionHeading } from 'components';
-import { CreateOrganizationDialog, OrganizationCard } from 'components/Organization';
-import { Organization, OrgType } from 'models';
 import { FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { createOrganization, fetchAllOrganizations } from 'store/organizationsSlice';
+import { CreateOrganizationDialog, OrganizationCard } from '.';
+import { SectionHeading } from '..';
+import { Organization, OrgType } from '../../models';
+import { createOrganization, fetchAllOrganizations } from '../../store/organizationsSlice';
 
 const CreateOrganization: FC = () => {
   const dispatch = useDispatch();

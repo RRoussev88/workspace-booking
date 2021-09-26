@@ -1,6 +1,6 @@
-import { SvgIcon } from 'components';
 import { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
+import { SvgIcon } from '.';
 
 type BaseItem = { id: string; name: string };
 

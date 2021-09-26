@@ -1,14 +1,14 @@
-import logo from 'assets/logo.svg';
-import { Footer, NavBar } from 'components';
-import { AuthToken, CoworkerPayload, LocalStorageKey } from 'models';
-import { Login, Offices, OrganizationDetails, Organizations, OrgOffices } from 'pages';
 import { FC, StrictMode, useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { store } from 'store';
+import logo from './assets/logo.svg';
 import { AuthContext } from './authContext';
+import { Footer, NavBar } from './components';
+import { AuthToken, CoworkerPayload, LocalStorageKey } from './models';
+import { Login, Offices, OrganizationDetails, Organizations, OrgOffices } from './pages';
+import { store } from './store';
 
 const App: FC = () => {
   const [token, setToken] = useState<AuthToken | null>(null);

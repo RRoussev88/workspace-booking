@@ -1,10 +1,15 @@
-import { AuthContext } from 'authContext';
-import { AppMessage, CustomFormInput, CustomTextArea, Loader, SectionHeading } from 'components';
-import { AppMessageVariant, Organization, OrgType } from 'models';
 import { ChangeEvent, ChangeEventHandler, FC, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import { fetchOrganization, resetState, selectOrganizationsState, updateOrganization } from 'store/organizationsSlice';
+import { AuthContext } from '../authContext';
+import { AppMessage, CustomFormInput, CustomTextArea, Loader, SectionHeading } from '../components';
+import { AppMessageVariant, Organization, OrgType } from '../models';
+import {
+  fetchOrganization,
+  resetState,
+  selectOrganizationsState,
+  updateOrganization,
+} from '../store/organizationsSlice';
 
 const OrganizationDetails: FC = () => {
   const auth = useContext(AuthContext);

@@ -1,14 +1,14 @@
-import { AuthContext } from 'authContext';
-import { AppMessage, ConfirmDialog, ListItem, Loader, SectionHeading } from 'components';
-import { AppMessageVariant, Organization } from 'models';
 import { FC, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { AppMessage, ConfirmDialog, ListItem, Loader, SectionHeading } from '..';
+import { AuthContext } from '../../authContext';
+import { AppMessageVariant, Organization } from '../../models';
 import {
   deleteOrganization,
   fetchAllOrganizations,
   resetState,
   selectOrganizationsState,
-} from 'store/organizationsSlice';
+} from '../../store/organizationsSlice';
 
 const OrganizationsList: FC = () => {
   const auth = useContext(AuthContext);

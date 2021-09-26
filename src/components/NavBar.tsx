@@ -1,10 +1,10 @@
 import { Transition } from '@headlessui/react';
-import { AuthContext } from 'authContext';
-import { SvgIcon } from 'components';
-import { AuthToken, LocalStorageKey, NavItem } from 'models';
 import { FC, useCallback, useContext, useEffect, useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { navigationItems } from 'utils';
+import { SvgIcon } from '.';
+import { AuthContext } from '../authContext';
+import { AuthToken, LocalStorageKey, NavItem } from '../models';
+import { navigationItems } from '../utils';
 
 type NavBarProps = { logo: string };
 

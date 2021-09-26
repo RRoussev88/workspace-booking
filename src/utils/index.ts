@@ -1,4 +1,4 @@
-import { NavItem } from 'models/types';
+import { NavItem } from '../models';
 
 export const navigationItems: Array<NavItem> = [
   { name: 'Sign In', url: '/login', isAuthRequired: false },

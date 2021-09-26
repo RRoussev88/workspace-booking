@@ -1,10 +1,10 @@
-import { AuthContext } from 'authContext';
-import { AppMessage, ConfirmDialog, ListItem, Loader, SectionHeading } from 'components';
-import { AppMessageVariant, Office } from 'models';
 import { FC, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { deleteOffice, fetchAllOrgOffices, resetState, selectOfficesState } from 'store/officesSlice';
+import { AppMessage, ConfirmDialog, ListItem, Loader, SectionHeading } from '..';
+import { AuthContext } from '../../authContext';
+import { AppMessageVariant, Office } from '../../models';
+import { deleteOffice, fetchAllOrgOffices, resetState, selectOfficesState } from '../../store/officesSlice';
 
 const OfficesList: FC = () => {
   const { orgId } = useParams();

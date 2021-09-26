@@ -1,5 +1,5 @@
-import { CreateOffice, OfficesList } from 'components/Office';
 import { FC } from 'react';
+import { CreateOffice, OfficesList } from '../components/Office';
 
 const OrgOffices: FC = () => (
   <>

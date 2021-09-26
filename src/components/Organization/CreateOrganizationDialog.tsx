@@ -1,9 +1,9 @@
 import { Dialog } from '@headlessui/react';
-import { AuthContext } from 'authContext';
-import { BaseModalDialog, CustomFormInput, CustomTextArea } from 'components';
-import { Organization, OrgType } from 'models';
 import { ChangeEvent, ChangeEventHandler, FC, useContext, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { BaseModalDialog, CustomFormInput, CustomTextArea } from '..';
+import { AuthContext } from '../../authContext';
+import { Organization, OrgType } from '../../models';
 
 interface CreateOrganizationDialogProps {
   isOpen: boolean;

@@ -1,6 +1,6 @@
 import { Dialog } from '@headlessui/react';
-import { BaseModalDialog } from 'components';
 import { FC } from 'react';
+import { BaseModalDialog } from '.';
 
 type ConfirmDialogProps = {
   isOpen: boolean;

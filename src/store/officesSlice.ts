@@ -1,8 +1,7 @@
 import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit';
-import { LocalStorageKey } from 'models/constants';
-import { Office } from 'models/office';
-import toaster from 'services/toaster';
-import { BaseState, RootState } from 'store';
+import { BaseState, RootState } from '.';
+import { LocalStorageKey, Office } from '../models';
+import toaster from '../services/toaster';
 
 export interface OfficesSliceState extends BaseState<Office> {
   activeOffice: Office | null;
