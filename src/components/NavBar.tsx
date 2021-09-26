@@ -52,7 +52,12 @@ const NavBar: FC<NavBarProps> = ({ logo }) => {
                 {navigationItems
                   .filter((item) => item.isAuthRequired === isAuthorized)
                   .map((item: NavItem) => (
-                    <NavLink key={item.url} to={item.url} end className="nav-item" activeClassName="nav-item__active">
+                    <NavLink
+                      key={item.url}
+                      to={item.url}
+                      end
+                      className={(classProps) => (classProps.isActive ? 'nav-item nav-item__active' : 'nav-item')}
+                    >
                       {item.name}
                     </NavLink>
                   ))}
@@ -109,8 +114,11 @@ const NavBar: FC<NavBarProps> = ({ logo }) => {
                   key={item.url}
                   to={item.url}
                   end
-                  className="nav-item burger__nav-item"
-                  activeClassName="nav-item__active burger__nav-item__active"
+                  className={(classProps) =>
+                    classProps.isActive
+                      ? 'nav-item burger__nav-item nav-item__active burger__nav-item__active'
+                      : 'nav-item burger__nav-item'
+                  }
                 >
                   {item.name}
                 </NavLink>
