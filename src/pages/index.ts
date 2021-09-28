@@ -1,4 +1,5 @@
 export { default as Login } from './Login';
+export { default as OfficeDetails } from './OfficeDetails';
 export { default as Offices } from './Offices';
 export { default as OrganizationDetails } from './OrganizationDetails';
 export { default as Organizations } from './Organizations';

@@ -73,6 +73,27 @@ export const fetchAllOrgOffices = (orgId: string) => async (dispatch: Dispatch) 
   }
 };
 
+export const fetchOffice = (officeId: string) => async (dispatch: Dispatch) => {
+  dispatch(setErrorState(null));
+  dispatch(setLoadingState(true));
+  try {
+    const response = await fetch(`${OFFICE_URL}/${officeId}`, { method: 'GET', headers: getHeaders() });
+    if (response.ok) {
+      const data: { Item?: Office } = await response.json();
+      if (data.Item) {
+        dispatch(setActiveOffice(data.Item));
+      }
+    } else {
+      const error = await response.text();
+      throw new Error(error);
+    }
+  } catch (error) {
+    dispatch(setErrorState((error as Error)?.message || 'Error fetching office'));
+  } finally {
+    dispatch(setLoadingState(false));
+  }
+};
+
 export const createOffice = (simpleOffice: Office) => async (dispatch: Dispatch) => {
   dispatch(setLoadingState(true));
   try {
@@ -87,6 +108,25 @@ export const createOffice = (simpleOffice: Office) => async (dispatch: Dispatch)
     }
   } catch (error) {
     toaster.toastError((error as Error)?.message || 'Error creating office');
+  } finally {
+    dispatch(setLoadingState(false));
+  }
+};
+
+export const updateOffice = (simpleOffice: Office) => async (dispatch: Dispatch) => {
+  dispatch(setLoadingState(true));
+  try {
+    const response = await fetch(OFFICE_URL, {
+      method: 'PATCH',
+      headers: getHeaders(),
+      body: JSON.stringify({ simpleOffice }),
+    });
+    if (!response.ok) {
+      const error = await response.text();
+      throw new Error(error);
+    }
+  } catch (error) {
+    toaster.toastError((error as Error)?.message || 'Error updating office');
   } finally {
     dispatch(setLoadingState(false));
   }
