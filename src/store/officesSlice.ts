@@ -14,7 +14,7 @@ const initialState: OfficesSliceState = {
   error: null,
 };
 
-export const counterSlice = createSlice({
+export const officesSlice = createSlice({
   name: 'offices',
   initialState,
   reducers: {
@@ -35,11 +35,13 @@ export const counterSlice = createSlice({
   },
 });
 
-export const { setActiveOffice, setDataState, setLoadingState, setErrorState, resetState } = counterSlice.actions;
+const { setDataState, setLoadingState, setErrorState } = officesSlice.actions;
+
+export const { setActiveOffice, resetState } = officesSlice.actions;
 
 export const selectOfficesState = (state: RootState) => state.offices;
 
-export default counterSlice.reducer;
+export default officesSlice.reducer;
 
 const OFFICE_URL = 'http://localhost:8000/offices';
 

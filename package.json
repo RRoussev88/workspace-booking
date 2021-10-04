@@ -23,6 +23,7 @@
     "jest-circus": "26.6.0",
     "jest-resolve": "26.6.0",
     "jest-watch-typeahead": "0.6.1",
+    "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.4",
@@ -38,7 +39,7 @@
     "start": "vite --open",
     "build": "vite build",
     "serve": "vite preview",
-    "build-css": "tailwindcss build src/tailwind.css -o src/main.css"
+    "build-css": "tailwindcss build -i src/tailwind.css -o src/main.css"
   },
   "eslintConfig": {
     "extends": [
@@ -59,6 +60,7 @@
     ]
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.175",
     "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.28.1",
     "@typescript-eslint/parser": "^4.28.1",

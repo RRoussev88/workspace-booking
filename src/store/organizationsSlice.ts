@@ -35,9 +35,9 @@ export const organizationsSlice = createSlice({
   },
 });
 
-const { setActiveOrganization, setDataState, setLoadingState, setErrorState } = organizationsSlice.actions;
+const { setDataState, setLoadingState, setErrorState } = organizationsSlice.actions;
 
-export const { resetState } = organizationsSlice.actions;
+export const { resetState, setActiveOrganization } = organizationsSlice.actions;
 
 export const selectOrganizationsState = (state: RootState) => state.organizations;
 

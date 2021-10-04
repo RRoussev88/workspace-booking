@@ -19,7 +19,7 @@ const CreateOffice: FC = () => {
 
   const handleCloseModal = async (newOffice?: Office) => {
     setIsModalOpen(false);
-    if (newOffice) {
+    if (newOffice && orgId) {
       await dispatch(createOffice(newOffice));
       dispatch(fetchAllOrgOffices(orgId));
     }

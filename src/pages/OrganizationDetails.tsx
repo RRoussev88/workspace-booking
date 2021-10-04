@@ -1,3 +1,4 @@
+import { isEqual } from 'lodash';
 import { ChangeEvent, ChangeEventHandler, FC, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
@@ -8,6 +9,7 @@ import {
   fetchOrganization,
   resetState,
   selectOrganizationsState,
+  setActiveOrganization,
   updateOrganization,
 } from '../store/organizationsSlice';
 
@@ -116,9 +118,11 @@ const OrganizationDetails: FC = () => {
               <button
                 type="button"
                 className="form__button form__button__success"
+                disabled={isLoading || isEqual(orgState, activeOrganization) || !orgState.name || !orgState.description}
                 onClick={async () => {
                   if (orgState) {
                     await dispatch(updateOrganization(orgState));
+                    await dispatch(setActiveOrganization(orgState));
                   }
                   setInEditMode((prevState) => !prevState);
                 }}
