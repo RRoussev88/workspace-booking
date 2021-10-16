@@ -127,7 +127,7 @@ const OfficeDetails: FC = () => {
         </dl>
       )}
       <Link
-        to="/reservations"
+        to="./reservations"
         className="mt-2 sm:mt-6 self-end action-button w-28 text-gray-400 bg-yellow-300 hover:bg-yellow-200"
       >
         Reservations

@@ -14,7 +14,7 @@ const OfficesList: FC = () => {
   const [deleteOfficeId, setDeleteOfficeId] = useState<string | null>(null);
 
   useEffect(() => {
-    if (auth.isLoggedIn) {
+    if (auth.isLoggedIn && orgId) {
       dispatch(fetchAllOrgOffices(orgId));
     }
 
@@ -26,7 +26,7 @@ const OfficesList: FC = () => {
   const handleDel = async (officeId: string) => {
     await dispatch(deleteOffice(officeId));
     setDeleteOfficeId(null);
-    dispatch(fetchAllOrgOffices(orgId));
+    orgId && dispatch(fetchAllOrgOffices(orgId));
   };
 
   const renderList = () => {
@@ -37,7 +37,9 @@ const OfficesList: FC = () => {
       offices.map((office) => (
         <ListItem<Office>
           key={office.id}
-          isAuthorized={!!auth.coworker?.coworkerEmail && office.contact.includes(auth.coworker?.coworkerEmail)}
+          isAuthorized={
+            !!auth.coworker?.coworkerEmail && office.contact.includes(auth.coworker?.coworkerEmail)
+          }
           item={office}
           onDelete={setDeleteOfficeId}
         />
@@ -58,7 +60,9 @@ const OfficesList: FC = () => {
       />
       <SectionHeading text="Offices List" />
       <hr className="divider" />
-      <div className="flex flex-col justify-center overflow-hidden">{isLoading ? <Loader /> : renderList()}</div>
+      <div className="flex flex-col justify-center overflow-hidden">
+        {isLoading ? <Loader /> : renderList()}
+      </div>
     </section>
   );
 };

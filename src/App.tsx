@@ -7,7 +7,15 @@ import logo from './assets/logo.svg';
 import { AuthContext } from './authContext';
 import { Footer, NavBar } from './components';
 import { AuthToken, CoworkerPayload, LocalStorageKey } from './models';
-import { Login, OfficeDetails, Offices, OrganizationDetails, Organizations, OrgOffices } from './pages';
+import {
+  Login,
+  OfficeDetails,
+  OfficeReservations,
+  Offices,
+  OrganizationDetails,
+  Organizations,
+  OrgOffices,
+} from './pages';
 import { store } from './store';
 
 const App: FC = () => {
@@ -81,7 +89,15 @@ const App: FC = () => {
                   {isLoggedIn && <Route path="/organizations" element={<Organizations />} />}
                   {isLoggedIn && <Route path="/organizations/:orgId" element={<OrganizationDetails />} />}
                   {isLoggedIn && <Route path="/organizations/:orgId/offices" element={<OrgOffices />} />}
-                  {isLoggedIn && <Route path="/organizations/:orgId/offices/:officeId" element={<OfficeDetails />} />}
+                  {isLoggedIn && (
+                    <Route path="/organizations/:orgId/offices/:officeId" element={<OfficeDetails />} />
+                  )}
+                  {isLoggedIn && (
+                    <Route
+                      path="/organizations/:orgId/offices/:officeId/reservations"
+                      element={<OfficeReservations />}
+                    />
+                  )}
                   <Route path="*" element={<Navigate to={isLoggedIn ? '/organizations' : '/login'} />} />
                 </Routes>
               </main>

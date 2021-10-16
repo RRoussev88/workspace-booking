@@ -55,7 +55,7 @@ export const fetchAllOrgOffices = (orgId: string) => async (dispatch: Dispatch) 
   dispatch(setErrorState(null));
   dispatch(setLoadingState(true));
   try {
-    const response = await fetch(`${OFFICE_URL}/org/${orgId}?paramName=organizationId`, {
+    const response = await fetch(`${OFFICE_URL}/org/${orgId}?propName=organizationId`, {
       method: 'GET',
       headers: getHeaders(),
     });
