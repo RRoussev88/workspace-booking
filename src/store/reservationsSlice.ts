@@ -85,7 +85,10 @@ export const fetchReservation = (reservationId: string) => async (dispatch: Disp
   dispatch(setErrorState(null));
   dispatch(setLoadingState(true));
   try {
-    const response = await fetch(`${RESERVATIONS_URL}/${reservationId}`, { method: 'GET', headers: getHeaders() });
+    const response = await fetch(`${RESERVATIONS_URL}/${reservationId}`, {
+      method: 'GET',
+      headers: getHeaders(),
+    });
     if (response.ok) {
       const data: { Item?: Reservation } = await response.json();
       if (data.Item) {
@@ -110,7 +113,9 @@ export const createReservation = (reservation: Reservation) => async (dispatch: 
       headers: getHeaders(),
       body: JSON.stringify({ reservation }),
     });
-    if (!response.ok) {
+    if (response.ok) {
+      toaster.toastSucess('Reservation created successfully');
+    } else {
       const error = await response.text();
       throw new Error(error);
     }
@@ -129,7 +134,9 @@ export const updateReservation = (reservation: Reservation) => async (dispatch: 
       headers: getHeaders(),
       body: JSON.stringify({ reservation }),
     });
-    if (!response.ok) {
+    if (response.ok) {
+      toaster.toastSucess('Reservation updated successfully');
+    } else {
       const error = await response.text();
       throw new Error(error);
     }
@@ -147,7 +154,9 @@ export const deleteReservation = (reservationId: string) => async (dispatch: Dis
       method: 'DELETE',
       headers: getHeaders(),
     });
-    if (!response.ok) {
+    if (response.ok) {
+      toaster.toastSucess('Reservation deleted successfully');
+    } else {
       const error = await response.text();
       throw new Error(error);
     }

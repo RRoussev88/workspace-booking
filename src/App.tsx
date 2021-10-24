@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import 'semantic-ui-css/semantic.min.css'
 import logo from './assets/logo.svg';
 import { AuthContext } from './authContext';
 import { Footer, NavBar } from './components';

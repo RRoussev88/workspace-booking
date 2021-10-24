@@ -32,12 +32,12 @@ const CreateOfficeDialog: FC<CreateOfficeDialogProps> = ({ isOpen, type, onClose
     const newOffice: Office = {
       id: uuidv4(),
       type,
-      organizationId: orgId,
+      organizationId: orgId ?? '',
       name: officeState.name ?? '',
       address: officeState.address ?? '',
       description: officeState.description ?? '',
       contact: auth.coworker?.coworkerEmail ? [auth.coworker.coworkerEmail] : [], // Put current user email
-      capacity: officeState.capacity ?? 0,
+      capacity: +(officeState.capacity ?? 0),
       occupied: 0,
     };
     handleCloseModal(newOffice);
