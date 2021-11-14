@@ -1,5 +1,13 @@
 import { isEqual } from 'lodash';
-import { ChangeEvent, ChangeEventHandler, FC, useContext, useEffect, useState } from 'react';
+import {
+  ChangeEvent,
+  ChangeEventHandler,
+  FC,
+  MouseEventHandler,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { AuthContext } from '../authContext';
@@ -21,8 +29,20 @@ const OrganizationDetails: FC = () => {
   const [orgState, setOrgState] = useState<Organization | null>(activeOrganization);
   const [inEditMode, setInEditMode] = useState<boolean>(false);
 
+  const disableSave = isLoading || isEqual(orgState, activeOrganization) || !orgState?.name;
+
   const handleFormChange: ChangeEventHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setOrgState((prevState) => (prevState ? { ...prevState, [event.target.name]: event.target.value } : prevState));
+    setOrgState((prevState) =>
+      prevState ? { ...prevState, [event.target.name]: event.target.value } : prevState,
+    );
+  };
+
+  const handleSaveChanges: MouseEventHandler<HTMLButtonElement> = async () => {
+    if (orgState) {
+      await dispatch(updateOrganization(orgState));
+      await dispatch(setActiveOrganization(orgState));
+    }
+    setInEditMode((prevState) => !prevState);
   };
 
   useEffect(() => {
@@ -118,21 +138,19 @@ const OrganizationDetails: FC = () => {
               <button
                 type="button"
                 className="form__button form__button__success"
-                disabled={isLoading || isEqual(orgState, activeOrganization) || !orgState.name || !orgState.description}
-                onClick={async () => {
-                  if (orgState) {
-                    await dispatch(updateOrganization(orgState));
-                    await dispatch(setActiveOrganization(orgState));
-                  }
-                  setInEditMode((prevState) => !prevState);
-                }}
+                disabled={disableSave}
+                onClick={handleSaveChanges}
               >
                 Save
               </button>
             </div>
           ) : (
             <div className="flex flex-row-reverse">
-              <button type="button" className="form__button" onClick={() => setInEditMode((prevState) => !prevState)}>
+              <button
+                type="button"
+                className="form__button"
+                onClick={() => setInEditMode((prevState) => !prevState)}
+              >
                 Edit
               </button>
             </div>

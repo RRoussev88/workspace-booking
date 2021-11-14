@@ -3,4 +3,4 @@ export enum LocalStorageKey {
   COWORKER = 'coworker',
 }
 
-export const DATE_TIME_FORMAT = "MM-DD-YYYY HH:mm";
+export const DATE_TIME_FORMAT = "HH:mm dd-MM-yyyy";
