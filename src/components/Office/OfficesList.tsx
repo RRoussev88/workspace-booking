@@ -1,7 +1,8 @@
+import { Box, Spinner } from '@chakra-ui/react';
 import { FC, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { AppMessage, ConfirmDialog, ListItem, Loader, SectionHeading } from '..';
+import { AppMessage, ConfirmDialog, ListItem, SectionHeading } from '..';
 import { AuthContext } from '../../authContext';
 import { AppMessageVariant, Office } from '../../models';
 import { deleteOffice, fetchAllOrgOffices, resetState, selectOfficesState } from '../../store/officesSlice';
@@ -61,7 +62,13 @@ const OfficesList: FC = () => {
       <SectionHeading text="Offices List" />
       <hr className="divider" />
       <div className="flex flex-col justify-center overflow-hidden">
-        {isLoading ? <Loader /> : renderList()}
+        {isLoading ? (
+          <Box w="100%" textAlign="center">
+            <Spinner />
+          </Box>
+        ) : (
+          renderList()
+        )}
       </div>
     </section>
   );

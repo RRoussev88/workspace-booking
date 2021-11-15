@@ -1,6 +1,7 @@
+import { Box, Spinner } from '@chakra-ui/react';
 import { FC, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppMessage, ConfirmDialog, ListItem, Loader, SectionHeading } from '..';
+import { AppMessage, ConfirmDialog, ListItem, SectionHeading } from '..';
 import { AuthContext } from '../../authContext';
 import { AppMessageVariant, Organization } from '../../models';
 import {
@@ -61,7 +62,15 @@ const OrganizationsList: FC = () => {
       />
       <SectionHeading text="Organizations List" />
       <hr className="divider" />
-      <div className="flex flex-col justify-center overflow-hidden">{isLoading ? <Loader /> : renderList()}</div>
+      <div className="flex flex-col justify-center overflow-hidden">
+        {isLoading ? (
+          <Box w="100%" textAlign="center">
+            <Spinner />
+          </Box>
+        ) : (
+          renderList()
+        )}
+      </div>
     </section>
   );
 };

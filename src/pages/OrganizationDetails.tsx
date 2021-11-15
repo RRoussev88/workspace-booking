@@ -1,3 +1,4 @@
+import { Box, Spinner } from '@chakra-ui/react';
 import { isEqual } from 'lodash';
 import {
   ChangeEvent,
@@ -11,7 +12,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { AuthContext } from '../authContext';
-import { AppMessage, CustomFormInput, CustomTextArea, Loader, SectionHeading } from '../components';
+import { AppMessage, CustomFormInput, CustomTextArea, SectionHeading } from '../components';
 import { AppMessageVariant, Organization, OrgType } from '../models';
 import {
   fetchOrganization,
@@ -63,7 +64,11 @@ const OrganizationDetails: FC = () => {
     <section className="section__layout">
       <SectionHeading text={`${orgState?.type === OrgType.OPEN ? 'Coworking Space' : 'Company'} Details`} />
       <hr className="divider" />
-      {isLoading && <Loader />}
+      {isLoading && (
+        <Box w="100%" textAlign="center">
+          <Spinner />
+        </Box>
+      )}
       {!isLoading && !!error && <AppMessage variant={AppMessageVariant.DANGER} text={error} />}
       {!isLoading && !error && orgState && (
         <dl className="text-gray-600">

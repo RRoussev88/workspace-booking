@@ -1,12 +1,31 @@
-import { ChangeEvent, ChangeEventHandler, FC, MouseEvent, MouseEventHandler, useContext, useState } from 'react';
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  Box,
+  Button,
+  CloseButton,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+  Stack,
+} from '@chakra-ui/react';
+import {
+  ChangeEvent,
+  ChangeEventHandler,
+  FC,
+  MouseEvent,
+  MouseEventHandler,
+  useContext,
+  useState,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../authContext';
-import { CustomFormInput, SvgIcon } from '../components';
 import { AuthToken, CoworkerPayload } from '../models';
 
-type LoginProps = {};
-
-const Login: FC<LoginProps> = () => {
+const Login: FC = () => {
   const navigation = useNavigate();
   const auth = useContext(AuthContext);
   const [hasError, setHasError] = useState<boolean>(false);
@@ -43,51 +62,65 @@ const Login: FC<LoginProps> = () => {
       // Call to `auth.onLogin` is extracted in separate promise in order to avoid unmounted component state change
       .then((data) => {
         if (data.token && data.payload) {
-          auth.onLogin({ ...data.token, ExpiresIn: new Date().valueOf() + data.token.ExpiresIn * 1000 }, data.payload);
+          auth.onLogin(
+            { ...data.token, ExpiresIn: new Date().valueOf() + data.token.ExpiresIn * 1000 },
+            data.payload,
+          );
           navigation('/organizations', { replace: true });
         }
       });
   };
 
   return (
-    <form className="max-w-sm mx-auto my-4 sm:my-6 lg:my-8 bg-gray-100 p-4 sm:p-6 lg:p-8 rounded shadow">
-      <fieldset className="text-gray-600">
-        <legend className="mx-auto my-4 text-xl">Sign In</legend>
-        {hasError && (
-          <div className="p-4 rounded shadow bg-red-100 border-2 border-red-300 flex">
-            Incorrect username and/or password
-            <button
-              type="button"
-              onClick={() => setHasError(false)}
-              className="border-2 border-red-300 p-2 rounded-md text-red-300 hover:bg-red-300 hover:text-white focus:outline-none"
-            >
-              <SvgIcon>
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-              </SvgIcon>
-            </button>
-          </div>
-        )}
-        <CustomFormInput
-          name="username"
-          label="Username"
-          containerClasses="mt-9"
-          placeholder="Enter Username"
-          value={username}
-          onChange={handleUsernameChange}
-        />
-        <CustomFormInput
-          name="password"
-          label="Password"
-          type="password"
-          containerClasses="my-9"
-          placeholder="Enter Password"
-          value={password}
-          onChange={handlePasswordChange}
-        />
-        <button className="form__button w-full" type="submit" onClick={handleSubmit}>
+    <form className="max-w-sm mx-auto my-4 sm:my-6 lg:my-8 bg-gray-100 p-4 sm:p-6 lg:p-8 rounded shadow border text-gray-600">
+      <Heading as="legend" size="lg" className="mx-auto my-4">
+        Sign In
+      </Heading>
+      <Stack spacing={6}>
+        <Stack as="fieldset">
+          {hasError && (
+            <Alert status="error" className="rounded shadow border border-red-300">
+              <AlertIcon />
+              <Box flex="1">
+                <AlertTitle mr={2}>Incorrect credentials</AlertTitle>
+                <AlertDescription>Please check your username and password and try again!</AlertDescription>
+              </Box>
+              <CloseButton position="absolute" right="8px" top="8px" onClick={() => setHasError(false)} />
+            </Alert>
+          )}
+          <FormControl id="username" className="block my-2 w-full">
+            <FormLabel htmlFor="username">Username</FormLabel>
+            <Input
+              id="username"
+              name="username"
+              label="Username"
+              type="text"
+              className="bg-white shadow"
+              variant=""
+              placeholder="Enter Username"
+              value={username}
+              onChange={handleUsernameChange}
+            />
+          </FormControl>
+          <FormControl id="password" className="block my-2 w-full">
+            <FormLabel htmlFor="password">Password</FormLabel>
+            <Input
+              id="password"
+              name="password"
+              label="Password"
+              type="password"
+              className="bg-white shadow"
+              variant=""
+              placeholder="Enter Password"
+              value={password}
+              onChange={handlePasswordChange}
+            />
+          </FormControl>
+        </Stack>
+        <Button size="md" colorScheme="blue" type="submit" onClick={handleSubmit}>
           Sign In
-        </button>
-      </fieldset>
+        </Button>
+      </Stack>
     </form>
   );
 };

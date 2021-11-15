@@ -1,9 +1,10 @@
+import { Box, Spinner } from '@chakra-ui/react';
 import { isEqual } from 'lodash';
 import { ChangeEvent, ChangeEventHandler, FC, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { AuthContext } from '../authContext';
-import { AppMessage, CustomFormInput, CustomTextArea, Loader, SectionHeading } from '../components';
+import { AppMessage, CustomFormInput, CustomTextArea, SectionHeading } from '../components';
 import { AppMessageVariant, Office, OfficeType } from '../models';
 import {
   fetchOffice,
@@ -77,7 +78,11 @@ const OfficeDetails: FC = () => {
         text={`${officeState?.type === OfficeType.SIMPLE ? 'Simple Office' : 'Named Spaces Office'} Details`}
       />
       <hr className="divider" />
-      {(isLoading || isLoadingOrg) && <Loader />}
+      {(isLoading || isLoadingOrg) && (
+        <Box w="100%" textAlign="center">
+          <Spinner />
+        </Box>
+      )}
       {!isLoading && !isLoadingOrg && (!!error || !!orgError) && (
         <AppMessage variant={AppMessageVariant.DANGER} text={error ?? (orgError as string)} />
       )}

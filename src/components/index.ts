@@ -5,7 +5,6 @@ export { default as CustomFormInput } from './CustomFormInput';
 export { default as CustomTextArea } from './CustomTextArea';
 export { default as Footer } from './Footer';
 export { default as ListItem } from './ListItem';
-export { default as Loader } from './Loader';
 export { default as NavBar } from './NavBar';
 export { default as SectionHeading } from './SectionHeading';
 export { default as SvgIcon } from './SvgIcon';
