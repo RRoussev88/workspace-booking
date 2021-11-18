@@ -1,3 +1,4 @@
+import { Divider, Flex } from '@chakra-ui/react';
 import { FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { CreateOrganizationDialog, OrganizationCard } from '.';
@@ -26,12 +27,12 @@ const CreateOrganization: FC = () => {
   return (
     <section className="section__layout">
       <SectionHeading text="Create Organization" />
-      <hr className="divider" />
+      <Divider className="divider" />
       <CreateOrganizationDialog isOpen={isModalOpen} type={selectedType} onCloseModal={handleCloseModal} />
-      <div className="flex flex-wrap justify-center -m-1 sm:-m-3">
+      <Flex className="-m-1 sm:-m-3" flexWrap="wrap">
         <OrganizationCard title="Coworking Space" onClick={() => handleCardClick(OrgType.OPEN)} />
         <OrganizationCard title="Company" disabled onClick={() => handleCardClick(OrgType.CLOSED)} />
-      </div>
+      </Flex>
     </section>
   );
 };

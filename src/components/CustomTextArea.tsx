@@ -1,9 +1,9 @@
-import { FC, ChangeEventHandler } from 'react';
+import { FormControl, FormLabel, Textarea } from '@chakra-ui/react';
+import { ChangeEventHandler, FC } from 'react';
 
 interface CustomTextAreaProps {
   value: string | number;
   name: string;
-  containerClasses?: string;
   placeholder?: string;
   disabled?: boolean;
   label?: string;
@@ -15,7 +15,6 @@ interface CustomTextAreaProps {
 const CustomFormInput: FC<CustomTextAreaProps> = ({
   value,
   name,
-  containerClasses,
   placeholder,
   disabled,
   label,
@@ -23,19 +22,22 @@ const CustomFormInput: FC<CustomTextAreaProps> = ({
   id,
   onChange,
 }) => (
-  <p className={containerClasses}>
-    <label className="text-lg" htmlFor={id ?? name}>{label ?? name}</label>
-    <textarea
-      className="block my-1 p-3 w-full rounded-2xl shadow focus:outline-none focus:ring"
-      name={name}
+  <FormControl id={id ?? name}>
+    <FormLabel className="text-lg" htmlFor={id ?? name}>
+      {label ?? name}
+    </FormLabel>
+    <Textarea
+      className="bg-white shadow"
       id={id ?? name}
+      rows={rows ?? 3}
+      name={name}
       placeholder={placeholder}
       value={value}
       onChange={onChange}
       disabled={disabled}
-      rows={rows ?? 3}
+      variant=""
     />
-  </p>
+  </FormControl>
 );
 
 export default CustomFormInput;

@@ -1,4 +1,5 @@
-import { FC, ChangeEventHandler } from 'react';
+import { FormControl, FormLabel, Input } from '@chakra-ui/react';
+import { ChangeEventHandler, FC } from 'react';
 
 interface CustomFormInputProps {
   value: string | number;
@@ -25,22 +26,23 @@ const CustomFormInput: FC<CustomFormInputProps> = ({
   id,
   onChange,
 }) => (
-  <p className={containerClasses}>
-    <label className="text-lg" htmlFor={id ?? name}>
-      {required && <span className="text-red-500 font-bold">* </span>}
+  <FormControl id={id ?? name} isRequired={required} className={containerClasses}>
+    <FormLabel className="text-lg" htmlFor={id ?? name}>
       {label ?? name}
-    </label>
-    <input
-      className="block my-1 px-3 w-full h-8 rounded-2xl shadow focus:outline-none focus:ring"
+    </FormLabel>
+    <Input
+      className="shadow"
+      id={id ?? name}
       type={type}
       name={name}
-      id={id ?? name}
       placeholder={placeholder}
       value={value}
       onChange={onChange}
       disabled={disabled}
+      variant=""
+      bg="white"
     />
-  </p>
+  </FormControl>
 );
 
 export default CustomFormInput;

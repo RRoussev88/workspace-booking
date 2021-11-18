@@ -1,3 +1,4 @@
+import { Divider, Flex } from '@chakra-ui/react';
 import { FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -28,13 +29,13 @@ const CreateOffice: FC = () => {
   return (
     <section className="section__layout">
       <SectionHeading text="Create Office" />
-      <hr className="divider" />
+      <Divider className="divider" />
       <CreateOfficeDialog isOpen={isModalOpen} type={selectedType} onCloseModal={handleCloseModal} />
-      <div className="flex flex-wrap justify-center -m-1 sm:-m-3">
+      <Flex className="-m-1 sm:-m-3" flexWrap="wrap">
         <OfficeCard title="Simple Office" onClick={() => handleCardClick(OfficeType.SIMPLE)} />
         <OfficeCard title="Named Workspaces" disabled />
         <OfficeCard title="Office Blueprint" disabled />
-      </div>
+      </Flex>
     </section>
   );
 };

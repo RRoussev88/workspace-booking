@@ -2,14 +2,10 @@ import {
   Alert,
   AlertDescription,
   AlertIcon,
-  AlertTitle,
   Box,
   Button,
   CloseButton,
-  FormControl,
-  FormLabel,
   Heading,
-  Input,
   Stack,
 } from '@chakra-ui/react';
 import {
@@ -23,12 +19,13 @@ import {
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../authContext';
+import { CustomFormInput } from '../components';
 import { AuthToken, CoworkerPayload } from '../models';
 
 const Login: FC = () => {
   const navigation = useNavigate();
   const auth = useContext(AuthContext);
-  const [hasError, setHasError] = useState<boolean>(false);
+  const [loginError, setLoginError] = useState<string | null>(null);
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
@@ -55,7 +52,7 @@ const Login: FC = () => {
           setPassword('');
         }
         if (data.errors?.length) {
-          setHasError(true);
+          setLoginError('Incorrect credentials');
         }
         return data;
       })
@@ -68,54 +65,45 @@ const Login: FC = () => {
           );
           navigation('/organizations', { replace: true });
         }
+      })
+      .catch((error: Error) => {
+        setLoginError(error?.message ?? 'Something went wrong');
       });
   };
 
   return (
     <form className="max-w-sm mx-auto my-4 sm:my-6 lg:my-8 bg-gray-100 p-4 sm:p-6 lg:p-8 rounded shadow border text-gray-600">
-      <Heading as="legend" size="lg" className="mx-auto my-4">
+      <Heading as="legend" size="lg" className="mx-auto">
         Sign In
       </Heading>
       <Stack spacing={6}>
         <Stack as="fieldset">
-          {hasError && (
+          {loginError && (
             <Alert status="error" className="rounded shadow border border-red-300">
               <AlertIcon />
               <Box flex="1">
-                <AlertTitle mr={2}>Incorrect credentials</AlertTitle>
-                <AlertDescription>Please check your username and password and try again!</AlertDescription>
+                <AlertDescription>{loginError}</AlertDescription>
               </Box>
-              <CloseButton position="absolute" right="8px" top="8px" onClick={() => setHasError(false)} />
+              <CloseButton position="absolute" right="8px" top="8px" onClick={() => setLoginError(null)} />
             </Alert>
           )}
-          <FormControl id="username" className="block my-2 w-full">
-            <FormLabel htmlFor="username">Username</FormLabel>
-            <Input
-              id="username"
-              name="username"
-              label="Username"
-              type="text"
-              className="bg-white shadow"
-              variant=""
-              placeholder="Enter Username"
-              value={username}
-              onChange={handleUsernameChange}
-            />
-          </FormControl>
-          <FormControl id="password" className="block my-2 w-full">
-            <FormLabel htmlFor="password">Password</FormLabel>
-            <Input
-              id="password"
-              name="password"
-              label="Password"
-              type="password"
-              className="bg-white shadow"
-              variant=""
-              placeholder="Enter Password"
-              value={password}
-              onChange={handlePasswordChange}
-            />
-          </FormControl>
+          <CustomFormInput
+            id="username"
+            name="username"
+            label="Username"
+            placeholder="Enter Username"
+            value={username}
+            onChange={handleUsernameChange}
+          />
+          <CustomFormInput
+            id="password"
+            name="password"
+            label="Password"
+            type="password"
+            placeholder="Enter Password"
+            value={password}
+            onChange={handlePasswordChange}
+          />
         </Stack>
         <Button size="md" colorScheme="blue" type="submit" onClick={handleSubmit}>
           Sign In

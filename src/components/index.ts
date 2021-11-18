@@ -1,6 +1,6 @@
 export { default as AppMessage } from './AppMessage';
-export { default as BaseModalDialog } from './BaseModalDialog';
 export { default as ConfirmDialog } from './ConfirmDialog';
+export { default as CustomDatePicker } from './CustomDatePicker';
 export { default as CustomFormInput } from './CustomFormInput';
 export { default as CustomTextArea } from './CustomTextArea';
 export { default as Footer } from './Footer';

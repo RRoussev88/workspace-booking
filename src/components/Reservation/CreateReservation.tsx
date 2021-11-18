@@ -1,24 +1,13 @@
-import {
-  Box,
-  Button,
-  Divider,
-  Flex,
-  FormControl,
-  FormLabel,
-  Heading,
-  Input,
-  Spacer,
-  Stack,
-} from '@chakra-ui/react';
+import { Button, Divider, Flex, Spacer, Stack } from '@chakra-ui/react';
 import { isEmpty } from 'lodash';
 import moment from 'moment';
 import { ChangeEvent, ChangeEventHandler, FC, MouseEvent, useContext, useState } from 'react';
-import DatePicker from 'react-datepicker';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import { CustomDatePicker, CustomFormInput, SectionHeading } from '..';
 import { AuthContext } from '../../authContext';
-import { DATE_TIME_FORMAT, FIVE_MINUTES, MOMENT_DATE_TIME_FORMAT, Reservation } from '../../models';
+import { FIVE_MINUTES, MOMENT_DATE_TIME_FORMAT, Reservation } from '../../models';
 import { createReservation, fetchAllOfficeReservations } from '../../store/reservationsSlice';
 
 const CreateReservation: FC = () => {
@@ -91,70 +80,51 @@ const CreateReservation: FC = () => {
 
   return (
     <section className="section__layout">
-      <Box className="p-2 sm:p-6  bg-indigo-300 rounded sm:rounded-xl shadow flex">
-        <Heading as="h2" size="lg" className="break-all sm:break-normal font-semibold text-gray-100">
-          Create Reservation
-        </Heading>
-      </Box>
+      <SectionHeading text="Create Reservation" />
       <Divider className="divider" />
       <form>
         <Stack as="fieldset" spacing={6}>
-          <FormControl id="name">
-            <FormLabel htmlFor="name">Reservation Name</FormLabel>
-            <Input
-              id="name"
-              name="name"
-              label="Reservation Name"
-              type="text"
-              placeholder="Enter reservation name"
-              value={reservationState.name ?? ''}
-              onChange={handleFormChange}
-            />
-          </FormControl>
-          <FormControl id="fromTime">
-            <FormLabel htmlFor="fromTime">Start Time</FormLabel>
-            <DatePicker
-              id="fromTime"
-              name="fromTime"
-              autoComplete="off"
-              placeholderText="Select Start Time"
-              showTimeSelect
-              showWeekNumbers
-              showMonthDropdown
-              timeIntervals={5}
-              dateFormat={DATE_TIME_FORMAT}
-              filterTime={filterStartTime}
-              selected={reservationState.fromTime ? new Date(reservationState.fromTime) : null}
-              onChange={handleFromTimeChange}
-              minDate={new Date()}
-              maxDate={reservationState.toTime ? new Date(reservationState.toTime) : null}
-            />
-          </FormControl>
-          <FormControl id="toTime">
-            <FormLabel htmlFor="toTime">End Time</FormLabel>
-            <DatePicker
-              id="toTime"
-              name="toTime"
-              autoComplete="off"
-              placeholderText="Select End Time"
-              showTimeSelect
-              showWeekNumbers
-              showMonthDropdown
-              timeIntervals={5}
-              dateFormat={DATE_TIME_FORMAT}
-              filterTime={filterEndTime}
-              selected={reservationState.toTime ? new Date(reservationState.toTime) : null}
-              onChange={handleToTimeChange}
-              minDate={reservationState.fromTime ? new Date(reservationState.fromTime) : new Date()}
-            />
-          </FormControl>
+          <CustomFormInput
+            id="name"
+            name="name"
+            label="Reservation Name"
+            placeholder="Enter reservation name"
+            value={reservationState.name ?? ''}
+            onChange={handleFormChange}
+          />
+          <CustomDatePicker
+            id="fromTime"
+            name="fromTime"
+            label="Start Time"
+            placeholderText="Select Start Time"
+            filterTime={filterStartTime}
+            selected={reservationState.fromTime ? new Date(reservationState.fromTime) : null}
+            onChange={handleFromTimeChange}
+            minDate={new Date()}
+            maxDate={reservationState.toTime ? new Date(reservationState.toTime) : null}
+          />
+          <CustomDatePicker
+            id="toTime"
+            name="toTime"
+            label="End Time"
+            placeholderText="Select End Time"
+            filterTime={filterEndTime}
+            selected={reservationState.toTime ? new Date(reservationState.toTime) : null}
+            onChange={handleToTimeChange}
+            minDate={reservationState.fromTime ? new Date(reservationState.fromTime) : new Date()}
+          />
         </Stack>
-        <Flex className="mt-4" wrap="wrap">
+        <Flex className="mt-4" flexWrap="wrap">
           <Button type="button" disabled={isEmpty(reservationState)} onClick={handleCancel}>
             Cancel
           </Button>
           <Spacer />
-          <Button colorScheme="blue" disabled={disableSubmit} type="submit" onClick={handleCreateReservation}>
+          <Button
+            colorScheme="green"
+            disabled={disableSubmit}
+            type="submit"
+            onClick={handleCreateReservation}
+          >
             Create
           </Button>
         </Flex>

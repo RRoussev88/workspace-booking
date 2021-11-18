@@ -1,8 +1,19 @@
-import { Dialog } from '@headlessui/react';
+import {
+  Button,
+  Heading,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Stack,
+} from '@chakra-ui/react';
 import { ChangeEvent, ChangeEventHandler, FC, useContext, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import { BaseModalDialog, CustomFormInput, CustomTextArea } from '..';
+import { CustomFormInput, CustomTextArea } from '..';
 import { AuthContext } from '../../authContext';
 import { Office, OfficeType } from '../../models';
 
@@ -44,71 +55,66 @@ const CreateOfficeDialog: FC<CreateOfficeDialogProps> = ({ isOpen, type, onClose
   };
 
   return (
-    <BaseModalDialog isOpen={isOpen} onClose={() => handleCloseModal()}>
-      <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-2xl rounded-2xl border-2 border-gray-200">
-        <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
-          {`Create ${type} office`}
-        </Dialog.Title>
-        <form className="max-w-sm mx-auto my-4 sm:my-6 lg:my-8 bg-gray-100 p-4 sm:p-6 lg:p-8 rounded shadow">
-          <fieldset className="text-gray-600">
-            <legend className="mx-auto ext-sm text-gray-500">
-              {type === OfficeType.SIMPLE && 'Create an office with specified number of work places'}
-            </legend>
+    <Modal isOpen={isOpen} onClose={() => handleCloseModal()}>
+      <ModalOverlay />
+      <ModalContent className="inline-block w-full max-w-md p-2 sm:p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-2xl rounded-2xl border-2 border-gray-200">
+        <ModalHeader as="h3" className="text-lg font-medium leading-6 text-gray-900">
+          Create {type} office
+        </ModalHeader>
+        <ModalCloseButton />
+        <ModalBody as="form" className="my-2 bg-gray-100 p-2 sm:p-6 rounded shadow">
+          <Heading as="legend" size="sm" className="mx-auto text-gray-500 mt-4">
+            {type === OfficeType.SIMPLE && 'Create an office with specified number of work places'}
+          </Heading>
+          <Stack as="fieldset" spacing={6} className="py-2 sm:py-6 text-gray-600">
             <CustomFormInput
+              id="name"
               name="name"
               label="Office Name"
-              containerClasses="mt-9"
-              placeholder="Enter Office Name"
+              placeholder="Enter office name"
               value={officeState.name ?? ''}
               onChange={handleFormChange}
               required
             />
             <CustomFormInput
+              id="address"
               name="address"
-              label="Office address"
-              containerClasses="mt-9"
-              placeholder="Enter Office address"
+              label="Office Address"
+              placeholder="Enter office address"
               value={officeState.address ?? ''}
               onChange={handleFormChange}
               required
             />
             <CustomTextArea
+              id="description"
               name="description"
               label="Office Description"
-              containerClasses="mt-9"
-              placeholder="Enter Office Description"
+              placeholder="Enter office description"
               value={officeState.description ?? ''}
               onChange={handleFormChange}
             />
             <CustomFormInput
+              id="capacity"
               name="capacity"
-              type="number"
-              label="Office capacity"
-              containerClasses="mt-9"
-              placeholder="Enter Office capacity"
+              label="Office Capacity"
+              placeholder="Enter office capacity"
               value={officeState.capacity ?? ''}
               onChange={handleFormChange}
+              type="number"
               required
             />
-          </fieldset>
-        </form>
-        <div className="mt-4 flex justify-between">
-          <button type="button" className="form__button form__button__cancel" onClick={() => handleCloseModal()}>
+          </Stack>
+        </ModalBody>
+        <ModalFooter display="flex" alignItems="center" justifyContent="space-between" px="0">
+          <Button type="button" onClick={() => handleCloseModal()}>
             Cancel
-          </button>
-          <button
-            type="button"
-            className={`form__button form__button__success ${
-              submitDisabled ? 'hover:bg-gray-300 bg-gray-300 cursor-default' : ''
-            }`}
-            disabled={submitDisabled}
-            onClick={handleSubmit}
-          >
+          </Button>
+          <Button type="button" colorScheme="green" disabled={submitDisabled} onClick={handleSubmit}>
             Create
-          </button>
-        </div>
-      </div>
-    </BaseModalDialog>
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 };
 
